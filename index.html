@@ -63,160 +63,155 @@
 <!-- ====================== C'EST QUOI ====================== -->
 <section class="sec" id="cest-quoi">
   <div class="sec-head">
-    <span class="tag">Les bases</span>
-    <h2>D'abord, comment un appareil vous protège normalement</h2>
-    <p class="sub">Pour comprendre le problème, il faut comprendre à quoi sert le fil de protection —
-      celui qu'on appelle « la terre ».</p>
+    <span class="tag">Le principe, simplement</span>
+    <h2>L'électricité a besoin d'une « sortie de secours »</h2>
+    <p class="sub">C'est justement cette sortie de secours qui manque dans les installations en
+      schéma&nbsp;III. Voici l'idée en une minute.</p>
   </div>
 
-  <div class="two-col">
-    <div class="card explainer">
-      <h3>Trois fils, trois rôles</h3>
-      <ul class="legend-list">
-        <li><span class="dot" style="--c:var(--phase)"></span><b>Phase (L)</b> — le fil « sous tension » qui amène le courant. En principe brun.</li>
-        <li><span class="dot" style="--c:var(--neutral)"></span><b>Neutre (N)</b> — le fil de retour du courant. En principe bleu (jaune dans les vieilles installations&nbsp;!).</li>
-        <li><span class="dot" style="--c:var(--pe)"></span><b>Protection (PE)</b> — « la terre ». Il ne transporte pas de courant en temps normal&nbsp;: c'est un fil de <em>secours</em>.</li>
-      </ul>
-      <p>Le boîtier métallique d'un appareil est relié au fil <b>PE</b>. Si un fil sous tension touche
-        accidentellement ce boîtier (un <em>défaut</em>), le courant file directement à la terre par le PE.
-        Ce court-circuit fait « sauter » le fusible en une fraction de seconde. Le boîtier ne reste
-        donc jamais dangereux&nbsp;: <b>c'est la coupure automatique en cas de défaut</b>.</p>
-    </div>
-
-    <figure class="card diagram">
-      <figcaption>Installation moderne (système <b>TN‑S</b>) — le PE est un fil séparé et dédié</figcaption>
-      <svg viewBox="0 0 440 320" class="svg-schema" id="schema-tns" role="img" aria-label="Schéma d'une installation moderne avec fil de protection séparé">
-        <!-- rails (disposition en escalier : aucun croisement) -->
-        <line class="wire phase"     x1="45" y1="55"  x2="360" y2="55"/>
-        <line class="wire neutral"   x1="45" y1="100" x2="330" y2="100"/>
-        <line class="wire pe"        x1="45" y1="145" x2="300" y2="145"/>
-        <line class="wire pe-stripe" x1="45" y1="145" x2="300" y2="145"/>
-        <text class="wl" x="35" y="59"  text-anchor="end">L</text>
-        <text class="wl" x="35" y="104" text-anchor="end">N</text>
-        <text class="wl" x="35" y="149" text-anchor="end">PE</text>
-
-        <!-- descentes vers l'appareil -->
-        <line class="wire phase"     x1="360" y1="55"  x2="360" y2="220"/>
-        <line class="wire neutral"   x1="330" y1="100" x2="330" y2="220"/>
-        <line class="wire pe"        x1="300" y1="145" x2="300" y2="220"/>
-        <line class="wire pe-stripe" x1="300" y1="145" x2="300" y2="220"/>
-
-        <!-- appareil -->
-        <rect class="enclosure" x="270" y="220" width="120" height="66" rx="8"/>
-        <text class="apl" x="330" y="258" text-anchor="middle">Appareil</text>
-        <circle cx="300" cy="220" r="4" class="node"/>
-        <circle cx="330" cy="220" r="4" class="node"/>
-        <circle cx="360" cy="220" r="4" class="node"/>
-
-        <text class="ok-badge" x="185" y="270" text-anchor="middle">✔ Le PE (vert‑jaune)<tspan x="185" dy="16">est un fil dédié</tspan></text>
-      </svg>
-    </figure>
-  </div>
-
-  <div class="sec-head mt">
-    <h2>Le schéma III&nbsp;: la protection « bricolée » avec le fil neutre</h2>
-    <p class="sub">Ici, il n'y a <b>pas</b> de fil de protection dédié. On relie le boîtier de l'appareil
-      au <b>fil neutre</b> par un petit pont, souvent <b>à l'intérieur même de la prise</b>.</p>
-  </div>
-
-  <div class="two-col">
-    <figure class="card diagram">
-      <figcaption>Mise au neutre selon le <b>schéma III</b> — un pont N→PE remplace la terre</figcaption>
-      <svg viewBox="0 0 440 340" class="svg-schema" id="schema-sch3" role="img" aria-label="Schéma de la mise au neutre selon le schéma III avec pont entre neutre et protection">
-        <!-- rails -->
-        <line class="wire phase"   x1="45" y1="60"  x2="360" y2="60"/>
-        <line class="wire neutral" x1="45" y1="105" x2="300" y2="105"/>
-        <text class="wl" x="35" y="64"  text-anchor="end">L</text>
-        <text class="wl" x="35" y="109" text-anchor="end">N</text>
-
-        <!-- descentes vers l'appareil -->
-        <line class="wire phase"   x1="360" y1="60"  x2="360" y2="236"/>
-        <line class="wire neutral" x1="300" y1="105" x2="300" y2="236"/>
-
-        <!-- pont N -> enveloppe métallique (PE) -->
-        <line class="wire bridge" x1="300" y1="185" x2="330" y2="185"/>
-        <line class="wire bridge" x1="330" y1="185" x2="330" y2="236"/>
-
-        <!-- appareil / enveloppe -->
-        <rect class="enclosure" x="270" y="236" width="120" height="66" rx="8"/>
-        <text class="apl" x="330" y="274" text-anchor="middle">Appareil</text>
-
-        <!-- points de raccordement, tous alignés sur le bord du boîtier -->
-        <circle cx="300" cy="236" r="4" class="node"/>
-        <circle cx="330" cy="236" r="4" class="node"/>
-        <circle cx="360" cy="236" r="4" class="node"/>
-
-        <!-- anneau jaune centré sur la jonction N -> pont -->
-        <g class="bridge-callout"><circle cx="300" cy="185" r="18" class="ring"/></g>
-        <circle cx="300" cy="185" r="4.5" class="node-hot"/>
-        <text x="300" y="156" text-anchor="middle" class="ring-label">pont N→PE</text>
-
-        <text class="warn-badge" x="220" y="328" text-anchor="middle">⚠ Le neutre (jaune) fait double emploi&nbsp;: retour du courant ET « terre »</text>
-      </svg>
-    </figure>
-
-    <div class="card explainer">
-      <h3>Pourquoi ça « marche »… jusqu'au jour où ça ne marche plus</h3>
-      <p>Le fil neutre est, en temps normal, presque au même potentiel que la terre&nbsp;: 0 volt.
-        Tant que tout est intact, brancher le boîtier au neutre donne l'illusion d'une vraie protection.</p>
-      <p>Mais on a fusionné <b>deux fonctions dans un seul fil</b>&nbsp;: transporter le courant de retour
-        <em>et</em> mettre les boîtiers à la terre. Or ce fil, lui, <b>travaille en permanence</b> — il peut
-        se desserrer, se couper, être inversé avec la phase, ou le petit pont peut être oublié.</p>
-      <div class="callout danger">
-        <b>Le piège&nbsp;:</b> quand ce fil unique lâche, ce ne sont pas seulement les appareils qui
-        s'arrêtent — <b>leurs boîtiers métalliques deviennent électriquement dangereux</b>, parfois sans
-        aucun signe visible.
-      </div>
-      <p class="tiny">Indice pratique&nbsp;: dans ces vieilles installations, le fil neutre est souvent
-        <b>jaune</b> (et non bleu). Le code couleur d'aujourd'hui n'existait pas.</p>
+  <div class="analogy card">
+    <div class="analogy-ic">🚪</div>
+    <div class="analogy-txt">
+      <p>Le boîtier métallique de vos appareils (lave‑linge, frigo, four…) est relié à un fil spécial&nbsp;:
+        le <b>fil de terre</b>, aussi appelé <b>fil de sécurité</b>. La plupart du temps, il ne sert à rien.
+        Mais le jour où un fil sous tension touche le boîtier par accident, ce fil offre à l'électricité
+        une <b>sortie de secours vers le sol</b>. Le courant s'y engouffre, le <b>fusible saute
+        aussitôt</b>, et le boîtier redevient inoffensif — souvent avant même que vous ne remarquiez
+        quoi que ce soit.</p>
+      <p class="analogy-bad"><b>Le schéma III, c'est une maison sans cette sortie de secours.</b>
+        Pour économiser un fil, on a demandé au fil de <b>retour du courant</b> de faire <em>aussi</em>
+        office de sécurité. Tant que tout est intact, l'illusion tient. Mais si ce fil unique se coupe ou
+        se débranche, la sortie de secours disparaît — et en cas de défaut, <b>le courant peut passer
+        par vous</b>.</p>
     </div>
   </div>
+
+  <div class="sec-head mt center">
+    <span class="tag">La même panne, deux issues</span>
+    <h2>Voyez la différence</h2>
+    <p class="sub">Un fil s'est détaché à l'intérieur d'un lave‑linge et touche son boîtier métallique.
+      Comparez ce qui se passe selon l'installation.</p>
+  </div>
+
+  <div class="scene-toggle" role="tablist" aria-label="Comparer les installations">
+    <button class="scene-btn active" data-mode="safe" role="tab">🛡️ Installation moderne</button>
+    <button class="scene-btn" data-mode="danger" role="tab">⚠️ Schéma III · un fil a lâché</button>
+  </div>
+
+  <div class="scene-wrap card" id="sceneWrap" data-mode="safe">
+    <svg viewBox="0 0 520 350" id="sceneSvg" role="img" aria-label="Scène : un lave-linge, une personne et le sol, comparant une installation moderne et le schéma III">
+      <!-- sol -->
+      <line x1="20" y1="306" x2="500" y2="306" class="earth"/>
+      <path d="M34 306 v-8 M50 306 v-12 M66 306 v-8" class="earth-hatch"/>
+      <text x="22" y="328" class="scene-lbl">le sol (la terre)</text>
+
+      <!-- fusible -->
+      <rect x="26" y="44" width="82" height="60" rx="7" class="box"/>
+      <text x="67" y="68" text-anchor="middle" class="box-l">Fusible</text>
+      <g class="only-safe">
+        <rect x="42" y="76" width="50" height="20" rx="5" fill="rgba(255,77,79,.16)" stroke="var(--danger)"/>
+        <text x="67" y="90" text-anchor="middle" class="fuse-off">SAUTÉ</text>
+      </g>
+      <g class="only-danger">
+        <rect x="42" y="76" width="50" height="20" rx="5" fill="rgba(57,185,114,.16)" stroke="var(--ok)"/>
+        <text x="67" y="90" text-anchor="middle" class="fuse-on">actif</text>
+      </g>
+
+      <!-- alimentation -->
+      <path class="wire phase"   d="M108 62 H244 V152" fill="none"/>
+      <path class="wire neutral" d="M108 86 H272 V152" fill="none"/>
+
+      <!-- lave-linge -->
+      <text x="270" y="140" text-anchor="middle" class="scene-lbl">Lave‑linge — boîtier métallique</text>
+      <rect x="196" y="152" width="150" height="154" rx="12" class="machine"/>
+      <rect x="196" y="152" width="150" height="26" rx="12" class="machine-top"/>
+      <circle cx="271" cy="236" r="40" class="porthole-out"/>
+      <circle cx="271" cy="236" r="29" class="porthole-in"/>
+
+      <!-- défaut interne -->
+      <path class="fault-bolt" d="M238 176 l11 -15 -6 0 11 -17"/>
+      <text x="214" y="200" class="fault-lbl">défaut</text>
+
+      <!-- MODE SÛR : fil de sécurité vers la terre -->
+      <g class="only-safe">
+        <path class="wire pe"        d="M212 286 H150 V304" fill="none"/>
+        <path class="wire pe-stripe" d="M212 286 H150 V304" fill="none"/>
+        <path d="M138 304 h24 M143 309 h14 M147 314 h6" class="earth-hatch"/>
+        <text x="150" y="334" text-anchor="middle" class="ok-lbl">fil de sécurité → terre</text>
+      </g>
+
+      <!-- MODE SCHÉMA III : "sécurité" = neutre, mais coupé -->
+      <g class="only-danger">
+        <path class="wire bridge" d="M212 286 H182 V98 H108" fill="none" opacity=".55"/>
+        <g>
+          <line x1="150" y1="90" x2="166" y2="106" class="break"/>
+          <line x1="166" y1="90" x2="150" y2="106" class="break"/>
+        </g>
+        <text x="150" y="128" text-anchor="middle" class="bad-lbl">fil coupé</text>
+      </g>
+
+      <!-- personne -->
+      <g id="scenePerson">
+        <circle cx="430" cy="180" r="16" class="scene-person"/>
+        <line x1="430" y1="196" x2="430" y2="252" class="scene-person"/>
+        <line x1="430" y1="210" x2="356" y2="228" class="scene-person"/>
+        <line x1="430" y1="252" x2="416" y2="304" class="scene-person"/>
+        <line x1="430" y1="252" x2="444" y2="304" class="scene-person"/>
+        <text x="430" y="150" text-anchor="middle" class="only-safe safe-lbl">à l'abri ✔</text>
+        <text x="430" y="150" text-anchor="middle" class="only-danger shock-lbl">⚡ électrisé</text>
+      </g>
+
+      <!-- courant animé -->
+      <circle id="scenePulse" r="5.5" opacity="0"/>
+
+      <!-- légende -->
+      <g transform="translate(372,42)" class="scene-legend">
+        <line x1="0" y1="0"  x2="20" y2="0"  class="wire phase"/><text x="26" y="4"  class="lg">courant</text>
+        <line x1="0" y1="16" x2="20" y2="16" class="wire neutral"/><text x="26" y="20" class="lg">retour</text>
+        <line x1="0" y1="32" x2="20" y2="32" class="wire pe"/><line x1="0" y1="32" x2="20" y2="32" class="wire pe-stripe"/><text x="26" y="36" class="lg">sécurité</text>
+      </g>
+    </svg>
+    <div class="scene-caption" id="sceneCaption"></div>
+  </div>
+
+  <p class="tiny center mt-s">💡 Petit indice chez vous&nbsp;: dans ces vieilles installations, le fil neutre
+    est souvent <b>jaune</b> (et non bleu), et les prises sont des <b>T12</b> sans collerette.</p>
 </section>
 
-<!-- ====================== SCHÉMA II vs III ====================== -->
+<!-- ====================== COMPARAISON ====================== -->
 <section class="sec alt" id="schemas">
   <div class="sec-head">
-    <span class="tag">Pour situer</span>
-    <h2>Schéma II, schéma III, TN‑S&nbsp;: quelle différence&nbsp;?</h2>
-    <p class="sub">Trois façons d'organiser le neutre et la terre. Deux sont dépassées.
-      Survolez ou touchez chaque colonne.</p>
+    <span class="tag">En un coup d'œil</span>
+    <h2>L'ancienne façon dangereuse, la façon moderne sûre</h2>
+    <p class="sub">Deux manières de mettre vos appareils à la terre. Une seule protège vraiment.</p>
   </div>
 
-  <div class="compare">
-    <article class="compare-col c-warn">
-      <header><h3>Schéma II</h3><span class="badge b-old">Ancien</span></header>
-      <p>Neutre et protection sont <b>regroupés en un seul fil</b> sur les lignes principales.
-        La séparation en deux fils distincts se fait <b>au niveau du coupe‑surintensité d'abonné</b>
-        (près du compteur).</p>
-      <ul>
-        <li>Fil neutre <b>jaune</b></li>
-        <li>Séparation N/PE assez tôt dans l'installation</li>
-        <li>Plus considéré comme état de la technique</li>
-      </ul>
-    </article>
+  <div class="compare compare-2">
     <article class="compare-col c-danger">
-      <header><h3>Schéma III</h3><span class="badge b-danger">Dangereux</span></header>
-      <p>La liaison à la « terre » est faite <b>tout au bout</b>, chez le consommateur&nbsp;: un
-        <b>court pont</b> entre le neutre et le boîtier, souvent <b>dans la prise elle‑même</b>.</p>
-      <ul>
-        <li>Fil neutre <b>jaune</b></li>
-        <li>Aucun vrai fil de protection séparé jusqu'à l'appareil</li>
-        <li><b>Dépassé depuis 1985</b> · doit être assaini</li>
+      <header><h3>Schéma III</h3><span class="badge b-danger">À assainir</span></header>
+      <p>La mise à la terre est « bricolée »&nbsp;: le fil de <b>retour du courant</b> sert <em>aussi</em>
+        de sécurité, souvent par un petit pont caché <b>dans la prise</b>.</p>
+      <ul class="cmp-list bad">
+        <li>Pas de vrai fil de sécurité dédié</li>
+        <li>Un seul fil qui lâche&nbsp;= boîtier dangereux</li>
+        <li>Le disjoncteur différentiel (DDR) n'y fonctionne pas</li>
+        <li>Repères&nbsp;: neutre souvent <b>jaune</b>, prises <b>T12</b></li>
       </ul>
     </article>
     <article class="compare-col c-ok">
-      <header><h3>TN‑S</h3><span class="badge b-ok">Actuel</span></header>
-      <p>Trois (ou cinq) fils <b>séparés du début à la fin</b>. Le PE est dédié à la protection et ne
-        transporte jamais le courant d'utilisation.</p>
-      <ul>
-        <li>Neutre <b>bleu</b>, protection <b>vert‑jaune</b></li>
-        <li>Compatible avec les disjoncteurs différentiels (DDR)</li>
-        <li><b>État actuel de la technique</b></li>
+      <header><h3>Système TN‑S</h3><span class="badge b-ok">Objectif</span></header>
+      <p>Chaque fil a son rôle, <b>du début à la fin</b>. Le fil de sécurité (vert‑jaune) est <b>dédié</b>
+        et ne transporte jamais le courant.</p>
+      <ul class="cmp-list good">
+        <li>Un vrai fil de sécurité, séparé</li>
+        <li>En cas de défaut, le fusible saute&nbsp;: vous êtes protégé</li>
+        <li>Compatible DDR, solaire, borne de recharge</li>
+        <li>Repères&nbsp;: neutre <b>bleu</b>, terre <b>vert‑jaune</b>, prises <b>T13</b></li>
       </ul>
     </article>
   </div>
-  <p class="note">L'objectif légal de l'assainissement est d'amener toute installation au
-    <b>système TN</b> (colonne de droite).</p>
+  <p class="note">Il a existé une étape intermédiaire, le « schéma&nbsp;II », aujourd'hui elle aussi dépassée.
+    L'objectif légal est d'amener toute installation au <b>système TN</b>.</p>
 </section>
 
 <!-- ====================== LES PRISES / TIMELINE ====================== -->

@@ -314,11 +314,60 @@
     }
   });
 
+  /* ===================================================================
+     SCÈNE — moderne (sûr) vs schéma III (danger)
+     =================================================================== */
+  const scene = { wrap: $('#sceneWrap'), pulse: $('#scenePulse'), cap: $('#sceneCaption') };
+  const SCENE = {
+    safe: {
+      color: 'var(--pe)',
+      path: [[243,178],[212,250],[212,286],[150,286],[150,304]],
+      cap: "Un fil détaché met le boîtier <b>sous tension</b>. Aussitôt, le <b>fil de sécurité</b> " +
+           "(vert‑jaune) offre à l'électricité un chemin direct vers le sol&nbsp;: un fort courant passe " +
+           "et <b>fait sauter le fusible</b> en un clin d'œil. Le boîtier redevient inoffensif — " +
+           "vous n'avez rien senti."
+    },
+    danger: {
+      color: 'var(--danger)',
+      path: [[243,178],[300,205],[356,228],[430,210],[430,252],[420,304]],
+      cap: "Même défaut… mais le fil unique qui servait de sécurité est <b>coupé</b>. Plus de sortie de " +
+           "secours&nbsp;: le courant traverse le boîtier, puis <b>vous</b>, pour rejoindre le sol. " +
+           "Le <b>fusible ne saute pas</b> et le boîtier reste dangereux. C'est ainsi qu'on s'électrise."
+    }
+  };
+  let sceneAnim = null, st = 0, sceneMode = 'safe';
+  function stopScene() { if (sceneAnim) cancelAnimationFrame(sceneAnim); sceneAnim = null; }
+  function runScene(mode) {
+    sceneMode = mode; stopScene();
+    scene.wrap.dataset.mode = mode;
+    const s = SCENE[mode];
+    scene.cap.innerHTML = s.cap;
+    scene.pulse.setAttribute('fill', s.color);
+    scene.pulse.setAttribute('opacity', '1');
+    st = 0;
+    const loop = () => {
+      st += 0.008; if (st > 1) st = 0;
+      const p = lerpPath(s.path, st);
+      scene.pulse.setAttribute('cx', p[0]); scene.pulse.setAttribute('cy', p[1]);
+      sceneAnim = requestAnimationFrame(loop);
+    };
+    loop();
+  }
+  $$('.scene-btn').forEach(b => b.addEventListener('click', () => {
+    $$('.scene-btn').forEach(x => x.classList.remove('active'));
+    b.classList.add('active');
+    runScene(b.dataset.mode);
+  }));
+  runScene('safe');
+
   /* pause heavy animations when tab hidden */
   document.addEventListener('visibilitychange', () => {
-    if (document.hidden) { stopAnim(); if (ddrAnim) cancelAnimationFrame(ddrAnim), ddrAnim = null; }
-    else {
+    if (document.hidden) {
+      stopAnim(); stopScene();
+      if (ddrAnim) cancelAnimationFrame(ddrAnim), ddrAnim = null;
+    } else {
       if (!ddrAnim) ddrLoop();
+      runScene(sceneMode);
       const active = $('.lab-btn.active'); if (active) applyFault(active.dataset.fault);
     }
   });
