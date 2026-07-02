@@ -156,8 +156,9 @@ figcaption{font-size:.9rem;color:var(--ink-soft);margin-bottom:14px;text-align:c
 .box-l{fill:var(--ink-soft);font-size:13px;font-weight:600}
 .ok-badge{fill:var(--ok);font-size:13px;font-weight:600}
 .warn-badge{fill:var(--warn);font-size:12.5px;font-weight:600}
-.ring{fill:none;stroke:var(--bridge);stroke-width:2;stroke-dasharray:4 4;transform-origin:316px 185px;animation:spin 12s linear infinite}
+.ring{fill:none;stroke:var(--bridge);stroke-width:2.5;stroke-dasharray:4 4;transform-origin:300px 185px;animation:spin 12s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
+.node-hot{fill:var(--bridge)}
 .ring-label{fill:var(--bridge);font-size:11px;font-weight:700}
 .pulse{fill:var(--phase)}
 .p-phase{offset-path:path('M40 60 H320 V110');animation:runpath 3s linear infinite}
@@ -286,6 +287,26 @@ figcaption{font-size:.9rem;color:var(--ink-soft);margin-bottom:14px;text-align:c
 .law-ic{font-size:1.8rem;display:block;margin-bottom:12px}
 .law-card h3{color:#fff;font-size:1.1rem}
 .law-card p{color:var(--ink-soft);font-size:.92rem;margin:0}
+/* périodicité de contrôle */
+.periodicite{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:28px 30px;margin-bottom:34px}
+.periodicite h3{color:#fff;margin-bottom:8px}
+.peri-intro{color:var(--ink-soft);max-width:70ch;margin-bottom:22px}
+.peri-scale{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:22px}
+.peri-item{background:var(--surface-2);border:1px solid var(--line);border-radius:var(--radius-s);padding:16px;border-top:4px solid}
+.peri-item b{display:block;font-family:var(--serif);font-size:1.6rem;color:#fff;margin-bottom:6px;line-height:1}
+.peri-item span{font-size:.85rem;color:var(--ink-soft)}
+.peri-item.p20{border-top-color:var(--ok)}
+.peri-item.p10{border-top-color:#7bbf3a}
+.peri-item.p5{border-top-color:var(--warn)}
+.peri-item.p1{border-top-color:var(--danger)}
+.peri-highlight{display:flex;align-items:center;gap:16px;background:rgba(240,160,32,.08);
+  border:1px solid rgba(240,160,32,.3);border-radius:var(--radius-s);padding:14px 18px}
+.peri-highlight p{margin:0;color:#ffe6c2;font-size:1rem}
+.peri-badge{flex-shrink:0;background:var(--warn);color:#20160a;font-weight:800;font-size:.8rem;
+  padding:6px 12px;border-radius:100px;text-transform:uppercase;letter-spacing:.04em}
+.peri-arrow{color:var(--warn);font-weight:800;margin:0 4px}
+@media(max-width:640px){.peri-scale{grid-template-columns:1fr 1fr}.peri-highlight{flex-direction:column;align-items:flex-start}}
+
 .law-refs{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:26px 30px}
 .law-refs h4{color:#fff;margin-bottom:14px;font-size:1.05rem}
 .law-refs ul{margin:0;padding-left:20px;color:var(--ink-soft);columns:2;column-gap:40px}

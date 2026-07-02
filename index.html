@@ -102,11 +102,11 @@
         <line class="wire pe-stripe" x1="300" y1="145" x2="300" y2="220"/>
 
         <!-- appareil -->
-        <rect class="enclosure" x="278" y="220" width="112" height="66" rx="8"/>
-        <text class="apl" x="334" y="258" text-anchor="middle">Appareil</text>
-        <circle cx="300" cy="220" r="3.6" class="node"/>
-        <circle cx="330" cy="220" r="3.6" class="node"/>
-        <circle cx="360" cy="220" r="3.6" class="node"/>
+        <rect class="enclosure" x="270" y="220" width="120" height="66" rx="8"/>
+        <text class="apl" x="330" y="258" text-anchor="middle">Appareil</text>
+        <circle cx="300" cy="220" r="4" class="node"/>
+        <circle cx="330" cy="220" r="4" class="node"/>
+        <circle cx="360" cy="220" r="4" class="node"/>
 
         <text class="ok-badge" x="185" y="270" text-anchor="middle">✔ Le PE (vert‑jaune)<tspan x="185" dy="16">est un fil dédié</tspan></text>
       </svg>
@@ -129,27 +129,27 @@
         <text class="wl" x="35" y="64"  text-anchor="end">L</text>
         <text class="wl" x="35" y="109" text-anchor="end">N</text>
 
-        <!-- descentes -->
-        <line class="wire phase"   x1="360" y1="60"  x2="360" y2="235"/>
-        <line class="wire neutral" x1="300" y1="105" x2="300" y2="235"/>
+        <!-- descentes vers l'appareil -->
+        <line class="wire phase"   x1="360" y1="60"  x2="360" y2="236"/>
+        <line class="wire neutral" x1="300" y1="105" x2="300" y2="236"/>
 
         <!-- pont N -> enveloppe métallique (PE) -->
-        <line class="wire bridge" x1="300" y1="185" x2="332" y2="185"/>
-        <line class="wire bridge" x1="332" y1="185" x2="332" y2="235"/>
-        <circle cx="300" cy="185" r="3.6" class="node"/>
+        <line class="wire bridge" x1="300" y1="185" x2="330" y2="185"/>
+        <line class="wire bridge" x1="330" y1="185" x2="330" y2="236"/>
 
         <!-- appareil / enveloppe -->
-        <rect class="enclosure" x="278" y="235" width="112" height="66" rx="8"/>
-        <text class="apl" x="334" y="273" text-anchor="middle">Appareil</text>
-        <circle cx="300" cy="235" r="3.6" class="node"/>
-        <circle cx="332" cy="235" r="3.6" class="node"/>
-        <circle cx="360" cy="235" r="3.6" class="node"/>
+        <rect class="enclosure" x="270" y="236" width="120" height="66" rx="8"/>
+        <text class="apl" x="330" y="274" text-anchor="middle">Appareil</text>
 
-        <!-- bulle explicative du pont, placée au-dessus -->
-        <g class="bridge-callout">
-          <circle cx="316" cy="185" r="19" class="ring"/>
-        </g>
-        <text x="316" y="158" text-anchor="middle" class="ring-label">pont N→PE</text>
+        <!-- points de raccordement, tous alignés sur le bord du boîtier -->
+        <circle cx="300" cy="236" r="4" class="node"/>
+        <circle cx="330" cy="236" r="4" class="node"/>
+        <circle cx="360" cy="236" r="4" class="node"/>
+
+        <!-- anneau jaune centré sur la jonction N -> pont -->
+        <g class="bridge-callout"><circle cx="300" cy="185" r="18" class="ring"/></g>
+        <circle cx="300" cy="185" r="4.5" class="node-hot"/>
+        <text x="300" y="156" text-anchor="middle" class="ring-label">pont N→PE</text>
 
         <text class="warn-badge" x="220" y="328" text-anchor="middle">⚠ Le neutre (jaune) fait double emploi&nbsp;: retour du courant ET « terre »</text>
       </svg>
@@ -416,14 +416,14 @@
         <text class="wl" x="34" y="98" text-anchor="end">N</text>
 
         <!-- sorties vers l'appareil (coudées pour entrer dans le boîtier) -->
-        <path class="wire phase"   id="ddrPhaseOut"   d="M270 66 H345 V150" fill="none"/>
+        <path class="wire phase"   id="ddrPhaseOut"   d="M270 66 H347 V150" fill="none"/>
         <path class="wire neutral" id="ddrNeutralOut" d="M270 94 H315 V150" fill="none"/>
 
         <!-- appareil -->
         <rect x="283" y="150" width="96" height="66" rx="8" class="enclosure"/>
         <text x="331" y="187" text-anchor="middle" class="apl">Appareil</text>
-        <circle cx="315" cy="150" r="3.6" class="node"/>
-        <circle cx="345" cy="150" r="3.6" class="node"/>
+        <circle cx="315" cy="150" r="4" class="node"/>
+        <circle cx="347" cy="150" r="4" class="node"/>
 
         <!-- fuite vers la personne -->
         <path id="leakPath" d="M315 216 Q296 244 260 254" class="leak" opacity="0"/>
@@ -467,7 +467,7 @@
       <h3>Contrôle tous les 5 ans</h3>
       <p>Depuis le 1ᵉʳ juillet 2021, dès qu'une installation contient <b>ne serait‑ce qu'un élément</b> en
         schéma III, <b>toute</b> l'installation passe à une période de contrôle raccourcie de
-        <b>5 ans</b> (au lieu de 10, 20 ou plus).</p>
+        <b>5 ans</b> (au lieu de <b>20 ans</b> pour un logement).</p>
     </div>
     <div class="law-card">
       <span class="law-ic">📄</span>
@@ -483,6 +483,25 @@
         sait non conforme, il en assume les conséquences <b>civiles et pénales</b>, notamment
         <b>en cas d'accident</b>.</p>
     </div>
+  </div>
+
+  <div class="periodicite">
+    <h3>À quelle fréquence contrôle-t-on une installation&nbsp;?</h3>
+    <p class="peri-intro">L'OIBT fixe la <b>période de contrôle</b> selon le type de local. Un logement se contrôle
+      normalement tous les <b>20 ans</b> — mais la présence du moindre élément en schéma III fait tomber
+      <b>toute</b> l'installation à <b>5 ans</b>.</p>
+    <div class="peri-scale">
+      <div class="peri-item p20"><b>20 ans</b><span>Habitations&nbsp;: villa, immeuble locatif, PPE, locaux communs, bureaux &lt;&nbsp;100&nbsp;m²</span></div>
+      <div class="peri-item p10"><b>10 ans</b><span>Exploitations agricoles, locaux mouillés / humides, ateliers, immeubles de bureaux, cabinets médicaux</span></div>
+      <div class="peri-item p5"><b>5 ans</b><span>Restaurants, hôtels, cinémas, grands magasins, industrie, garages, laboratoires</span></div>
+      <div class="peri-item p1"><b>1 an</b><span>Chantiers, hôpitaux, dépôts de carburant, zones à risque d'explosion (Ex)</span></div>
+    </div>
+    <div class="peri-highlight">
+      <span class="peri-badge">Schéma III</span>
+      <p>Un logement à <b>20 ans</b> <span class="peri-arrow">→</span> <b>5 ans</b> tant qu'il subsiste un
+        élément en schéma III (règle durcie le 1ᵉʳ juillet 2021, applicable à l'ensemble de l'installation).</p>
+    </div>
+    <p class="tiny">Source&nbsp;: annexe de l'OIBT (RS 734.27) — liste de périodicité des contrôles.</p>
   </div>
 
   <div class="law-refs">

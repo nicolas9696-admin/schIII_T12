@@ -64,49 +64,48 @@
   // Prise suisse réaliste : plaque blanche, trous ronds, vis centrale, collerette hexagonale (T13)
   function socketSVG(kind) {
     const plate = `
-      <rect x="12" y="12" width="176" height="176" rx="22" fill="#f5f7f9" stroke="#d3d8e0" stroke-width="2"/>
-      <rect x="30" y="30" width="140" height="140" rx="12" fill="#fbfcfd" stroke="#e6eaef" stroke-width="1.5"/>`;
-    const hole = '#20262f';
-    let collar = '', holes, screw;
-
-    const hex = '58,108 80,74 120,74 142,108 120,142 80,142';
-    let fiche = '', overlay = '';
+      <rect x="14" y="14" width="172" height="172" rx="26" fill="#eef1f4" stroke="#c9d0d8" stroke-width="2"/>
+      <rect x="26" y="26" width="148" height="148" rx="18" fill="#f9fafb" stroke="#dde2e8" stroke-width="1.5"/>`;
+    const hole = '#232a30';
+    // hexagone "flat-top" à pointes gauche/droite (comme la vraie T13)
+    const hex = '74,70 126,70 152,105 126,140 74,140 48,105';
+    let collar = '', holes, screw, fiche = '', overlay = '';
 
     if (kind === 't1') {
-      // ancienne 2 pôles
-      holes = `<circle cx="84" cy="100" r="10" fill="${hole}"/><circle cx="116" cy="100" r="10" fill="${hole}"/>`;
+      holes = `<circle cx="78" cy="100" r="11" fill="${hole}"/><circle cx="122" cy="100" r="11" fill="${hole}"/>`;
       screw = '';
     } else {
-      // T12 / T13 : 3 trous en triangle + vis
+      // 3 trous : deux en haut (L, N) + un en bas (PE), vis au sommet
       holes = `
-        <circle cx="82" cy="98" r="9" fill="${hole}"/>
-        <circle cx="118" cy="98" r="9" fill="${hole}"/>
-        <circle cx="100" cy="130" r="9" fill="${hole}"/>`;
+        <circle cx="79" cy="106" r="10" fill="${hole}"/>
+        <circle cx="121" cy="106" r="10" fill="${hole}"/>
+        <circle cx="100" cy="138" r="10" fill="${hole}"/>`;
       screw = `
-        <circle cx="100" cy="86" r="8" fill="#c4c9d0" stroke="#a7adb6" stroke-width="1.5"/>
-        <line x1="94" y1="86" x2="106" y2="86" stroke="#868c95" stroke-width="1.6"/>`;
+        <circle cx="100" cy="80" r="8.5" fill="#c2c8cf" stroke="#9aa1ab" stroke-width="1.5"/>
+        <line x1="93" y1="80" x2="107" y2="80" stroke="#7f868f" stroke-width="1.8"/>`;
+
       if (kind === 't13') {
-        // collerette hexagonale en relief (protection au contact)
+        // collerette hexagonale en relief (protège du contact)
         collar = `
-          <polygon points="${hex}" fill="#ffffff" stroke="#d7dce3" stroke-width="2"/>
-          <polygon points="${hex}" fill="none" stroke="#eef1f5" stroke-width="4" opacity=".7"/>`;
+          <polygon points="${hex}" fill="#ffffff" stroke="#cdd4dc" stroke-width="2.5"/>
+          <polygon points="${hex}" fill="none" stroke="#f2f5f8" stroke-width="5" opacity=".8"/>`;
         overlay = `<polygon class="shield" points="${hex}"/>
-          <text class="cap-ok" x="100" y="182" text-anchor="middle">contact protégé ✔</text>`;
+          <text class="cap-ok" x="100" y="190" text-anchor="middle">contact protégé ✔</text>`;
       } else {
-        // T12 : pas de collerette → broches accessibles
+        // T12 : face plate, pas de collerette → broches accessibles
         overlay = `<g class="expose">
-            <path d="M62 92 a12 12 0 0 0 0 22" fill="none" stroke="#ff4d4f" stroke-width="3"/>
-            <path d="M138 92 a12 12 0 0 1 0 22" fill="none" stroke="#ff4d4f" stroke-width="3"/>
+            <path d="M52 92 a14 14 0 0 0 0 28" fill="none" stroke="#ff4d4f" stroke-width="3.5"/>
+            <path d="M148 92 a14 14 0 0 1 0 28" fill="none" stroke="#ff4d4f" stroke-width="3.5"/>
           </g>
-          <text class="cap-bad" x="100" y="182" text-anchor="middle">broches accessibles ⚠</text>`;
+          <text class="cap-bad" x="100" y="190" text-anchor="middle">broches accessibles ⚠</text>`;
       }
-      // fiche animée (broches métalliques + corps + cordon)
+      // fiche animée (corps + cordon + 3 broches alignées sur les trous)
       fiche = `<g class="fiche">
-          <rect x="88" y="22" width="24" height="14" rx="4" fill="#454f66"/>
-          <rect x="58" y="36" width="84" height="40" rx="13" fill="#2b3242" stroke="#4a5670" stroke-width="2"/>
-          <rect x="79" y="74" width="6" height="26" rx="3" fill="#cfd3da"/>
-          <rect x="115" y="74" width="6" height="26" rx="3" fill="#cfd3da"/>
-          <rect x="97" y="74" width="6" height="40" rx="3" fill="#cfd3da"/>
+          <rect x="88" y="24" width="24" height="16" rx="4" fill="#3d4658"/>
+          <rect x="54" y="40" width="92" height="40" rx="14" fill="#2b3242" stroke="#4a5670" stroke-width="2"/>
+          <rect x="75" y="78" width="8" height="30" rx="4" fill="#cfd3da"/>
+          <rect x="117" y="78" width="8" height="30" rx="4" fill="#cfd3da"/>
+          <rect x="96" y="78" width="8" height="62" rx="4" fill="#cfd3da"/>
         </g>`;
     }
     return `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
@@ -285,7 +284,7 @@
   const ddrLoop = () => {
     dt += 0.01; if (dt > 1) dt = 0;
     // phase dot: entrée -> DDR -> descente dans l'appareil
-    const pa = lerpPath([[40,66],[345,66],[345,150]], dt);
+    const pa = lerpPath([[40,66],[347,66],[347,150]], dt);
     ddr.pa.setAttribute('cx', pa[0]); ddr.pa.setAttribute('cy', pa[1]);
     ddr.pa.setAttribute('fill', 'var(--phase)');
     if (!leaking) {
