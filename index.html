@@ -115,13 +115,12 @@
       <!-- sol -->
       <line x1="20" y1="306" x2="500" y2="306" class="earth"/>
       <path d="M34 306 v-8 M50 306 v-12 M66 306 v-8" class="earth-hatch"/>
-      <text x="22" y="328" class="scene-lbl">le sol (la terre)</text>
+      <text x="428" y="326" text-anchor="middle" class="scene-lbl">le sol (la terre)</text>
 
-      <!-- fusible + indicateur (piloté par le script) -->
-      <rect x="26" y="44" width="82" height="60" rx="7" class="box"/>
-      <text x="67" y="66" text-anchor="middle" class="box-l">Fusible</text>
-      <rect id="fuseBox" x="36" y="74" width="62" height="20" rx="5"/>
-      <text id="fuseTxt" x="67" y="88" text-anchor="middle"></text>
+      <!-- fusible : le bord de la boîte et le texte changent selon l'état -->
+      <rect id="fuseBox" x="24" y="44" width="88" height="62" rx="7" class="box f-ok"/>
+      <text x="68" y="68" text-anchor="middle" class="box-l">Fusible</text>
+      <text id="fuseTxt" x="68" y="92" text-anchor="middle" class="f-ok-t"></text>
 
       <!-- phase (le "courant"), commune -->
       <path class="wire phase" d="M108 62 H244 V152" fill="none"/>

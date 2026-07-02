@@ -347,7 +347,7 @@
     },
     sch3_fault: {
       tone: 'danger', color: 'var(--danger)', path: PATH_BODY, speed: 0.011,
-      fuse: ["n'a pas sauté ✗", 'f-bad'], person: ['⚡ électrisé', 'p-live'],
+      fuse: ['resté actif ✗', 'f-bad'], person: ['⚡ électrisé', 'p-live'],
       cap: "Un fil touche le boîtier <b>et</b> le neutre — le seul fil qui servait de « terre » — est " +
            "<b>coupé</b>. Plus de sortie de secours&nbsp;: le courant traverse le boîtier, puis <b>vous</b>. " +
            "Le <b>fusible ne saute pas</b>, et aucun DDR ne peut rattraper le coup."
@@ -361,7 +361,7 @@
     scene.wrap.dataset.install = sceneInstall;
     scene.wrap.dataset.state = sceneState;
     scene.wrap.dataset.tone = c.tone;
-    scene.fuseBox.setAttribute('class', c.fuse[1]);
+    scene.fuseBox.setAttribute('class', 'box ' + c.fuse[1]);
     scene.fuseTxt.setAttribute('class', c.fuse[1] + '-t');
     scene.fuseTxt.textContent = c.fuse[0];
     scene.personLbl.textContent = c.person[0];

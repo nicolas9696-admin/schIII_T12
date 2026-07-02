@@ -227,13 +227,15 @@ figcaption{font-size:.9rem;color:var(--ink-soft);margin-bottom:14px;text-align:c
 .ok-lbl{fill:var(--pe);font-size:12px;font-weight:700}
 .bad-lbl{fill:var(--danger-soft);font-size:12px;font-weight:700}
 .warn-lbl{fill:var(--warn);font-size:11px;font-weight:700}
-/* fusible dynamique */
-#fuseBox.f-ok{fill:rgba(163,179,201,.1);stroke:var(--ink-faint);stroke-width:1.5}
-#fuseBox.f-good{fill:rgba(57,185,114,.16);stroke:var(--ok);stroke-width:1.5}
-#fuseBox.f-bad{fill:rgba(255,77,79,.16);stroke:var(--danger);stroke-width:1.5}
-.f-ok-t{fill:var(--ink-soft);font-size:11px;font-weight:700}
-.f-good-t{fill:var(--ok);font-size:11px;font-weight:800}
-.f-bad-t{fill:var(--danger-soft);font-size:11px;font-weight:800}
+/* fusible dynamique : la boîte garde son fond, seul le bord change */
+#fuseBox{fill:var(--surface-2)}
+#fuseBox.f-ok{stroke:var(--line);stroke-width:2}
+#fuseBox.f-good{stroke:var(--ok);stroke-width:2.5}
+#fuseBox.f-bad{stroke:var(--danger);stroke-width:2.5}
+#fuseTxt{font-size:10px;font-weight:700}
+.f-ok-t{fill:var(--ink-soft)}
+.f-good-t{fill:var(--ok);font-weight:800}
+.f-bad-t{fill:var(--danger-soft);font-weight:800}
 /* personne dynamique */
 .scene-person{stroke:var(--ink-soft);stroke-width:3;fill:none;stroke-linecap:round}
 #scenePerson.live .scene-person{stroke:var(--danger)}
