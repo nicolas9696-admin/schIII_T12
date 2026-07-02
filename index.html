@@ -117,9 +117,8 @@
         <text x="67" y="90" text-anchor="middle" class="fuse-on">actif</text>
       </g>
 
-      <!-- alimentation -->
-      <path class="wire phase"   d="M108 62 H244 V152" fill="none"/>
-      <path class="wire neutral" d="M108 86 H272 V152" fill="none"/>
+      <!-- la phase (le "courant") est commune aux deux installations -->
+      <path class="wire phase" d="M108 62 H244 V152" fill="none"/>
 
       <!-- lave-linge -->
       <text x="270" y="140" text-anchor="middle" class="scene-lbl">Lave‑linge — boîtier métallique</text>
@@ -132,22 +131,35 @@
       <path class="fault-bolt" d="M238 176 l11 -15 -6 0 11 -17"/>
       <text x="214" y="200" class="fault-lbl">défaut</text>
 
-      <!-- MODE SÛR : fil de sécurité vers la terre -->
+      <!-- ===== MODE MODERNE : 3 fils, dont un fil de sécurité DÉDIÉ ===== -->
       <g class="only-safe">
+        <path class="wire neutral"   d="M108 86 H272 V152" fill="none"/>
         <path class="wire pe"        d="M212 286 H150 V304" fill="none"/>
         <path class="wire pe-stripe" d="M212 286 H150 V304" fill="none"/>
         <path d="M138 304 h24 M143 309 h14 M147 314 h6" class="earth-hatch"/>
         <text x="150" y="334" text-anchor="middle" class="ok-lbl">fil de sécurité → terre</text>
+        <g transform="translate(372,40)" class="scene-legend">
+          <line x1="0" y1="0"  x2="20" y2="0"  class="wire phase"/><text x="26" y="4"  class="lg">courant</text>
+          <line x1="0" y1="16" x2="20" y2="16" class="wire neutral"/><text x="26" y="20" class="lg">retour</text>
+          <line x1="0" y1="32" x2="20" y2="32" class="wire pe"/><line x1="0" y1="32" x2="20" y2="32" class="wire pe-stripe"/><text x="26" y="36" class="lg">sécurité (terre)</text>
+        </g>
       </g>
 
-      <!-- MODE SCHÉMA III : "sécurité" = neutre, mais coupé -->
+      <!-- ===== MODE SCHÉMA III : 2 fils seulement, le neutre fait TOUT ===== -->
       <g class="only-danger">
-        <path class="wire bridge" d="M212 286 H182 V98 H108" fill="none" opacity=".55"/>
-        <g>
-          <line x1="150" y1="90" x2="166" y2="106" class="break"/>
-          <line x1="166" y1="90" x2="150" y2="106" class="break"/>
+        <!-- le neutre : retour ET "terre" -->
+        <path class="wire neutral" d="M108 86 H272 V152" fill="none"/>
+        <!-- ...le boîtier est relié à ce même neutre (le "pont") -->
+        <path class="wire neutral" d="M272 124 H306 V176" fill="none"/>
+        <circle cx="306" cy="176" r="3.5" class="node"/>
+        <!-- ce fil unique est coupé -->
+        <line x1="150" y1="78" x2="166" y2="94" class="break"/>
+        <line x1="166" y1="78" x2="150" y2="94" class="break"/>
+        <text x="158" y="70" text-anchor="middle" class="bad-lbl">neutre coupé</text>
+        <g transform="translate(330,40)" class="scene-legend">
+          <line x1="0" y1="0"  x2="20" y2="0"  class="wire phase"/><text x="26" y="4"  class="lg">courant</text>
+          <line x1="0" y1="18" x2="20" y2="18" class="wire neutral"/><text x="26" y="22" class="lg">neutre = retour ET terre</text>
         </g>
-        <text x="150" y="128" text-anchor="middle" class="bad-lbl">fil coupé</text>
       </g>
 
       <!-- personne -->
@@ -163,13 +175,6 @@
 
       <!-- courant animé -->
       <circle id="scenePulse" r="5.5" opacity="0"/>
-
-      <!-- légende -->
-      <g transform="translate(372,42)" class="scene-legend">
-        <line x1="0" y1="0"  x2="20" y2="0"  class="wire phase"/><text x="26" y="4"  class="lg">courant</text>
-        <line x1="0" y1="16" x2="20" y2="16" class="wire neutral"/><text x="26" y="20" class="lg">retour</text>
-        <line x1="0" y1="32" x2="20" y2="32" class="wire pe"/><line x1="0" y1="32" x2="20" y2="32" class="wire pe-stripe"/><text x="26" y="36" class="lg">sécurité</text>
-      </g>
     </svg>
     <div class="scene-caption" id="sceneCaption"></div>
   </div>
