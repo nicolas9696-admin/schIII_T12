@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Schéma III & prises T12 — comprendre le danger et l'assainissement</title>
+<meta name="description" content="Explication simple et illustrée de la mise au neutre selon le schéma III et des prises de type 12 : pourquoi c'est dangereux, ce que dit la loi (OIBT, directive ESTI n°225), et quoi faire. Pour tout le monde.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- ====================== NAV ====================== -->
+<header class="nav" id="nav">
+  <a href="#top" class="brand">
+    <svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><path d="M13 2 3 14h7l-1 8 10-12h-7z" fill="currentColor"/></svg>
+    <span>Schéma&nbsp;III <em>·</em> T12</span>
+  </a>
+  <nav class="nav-links" aria-label="Navigation principale">
+    <a href="#cest-quoi">C'est quoi&nbsp;?</a>
+    <a href="#prises">Les prises</a>
+    <a href="#danger">Le danger</a>
+    <a href="#ddr">Le DDR</a>
+    <a href="#loi">La loi</a>
+    <a href="#faire">Que faire&nbsp;?</a>
+  </nav>
+  <button class="nav-toggle" id="navToggle" aria-label="Menu">☰</button>
+</header>
+
+<!-- ====================== HERO ====================== -->
+<section class="hero" id="top">
+  <div class="hero-bg" aria-hidden="true">
+    <svg class="wire-anim" viewBox="0 0 1200 400" preserveAspectRatio="xMidYMid slice">
+      <path class="flow flow1" d="M-50 120 H1250" />
+      <path class="flow flow2" d="M-50 200 H1250" />
+      <path class="flow flow3" d="M-50 280 H1250" />
+    </svg>
+  </div>
+  <div class="hero-inner">
+    <span class="kicker">Sécurité électrique en Suisse · pour tout le monde</span>
+    <h1>Votre logement est-il encore câblé <span class="hl">« au schéma&nbsp;III »</span> ?</h1>
+    <p class="lead">Dans des dizaines de milliers de bâtiments anciens, la mise à la terre des appareils
+      repose sur une astuce dépassée&nbsp;: le fil neutre sert aussi de fil de protection.
+      <strong>Une seule erreur peut rendre mortel le boîtier d'une machine à laver ou d'un frigo.</strong>
+      Ce site explique — sans jargon — de quoi il s'agit, pourquoi c'est dangereux, et ce que dit la loi.</p>
+    <div class="hero-cta">
+      <a href="#cest-quoi" class="btn btn-primary">Comprendre en 3 minutes</a>
+      <a href="#faire" class="btn btn-ghost">Je suis propriétaire →</a>
+    </div>
+    <div class="hero-stats">
+      <div><b>1985</b><span>schéma III déclaré dépassé</span></div>
+      <div><b>5 ans</b><span>contrôle obligatoire raccourci</span></div>
+      <div><b>2016</b><span>fin des prises T12</span></div>
+    </div>
+  </div>
+  <div class="scroll-hint" aria-hidden="true"><span></span>Défiler</div>
+</section>
+
+<main>
+
+<!-- ====================== C'EST QUOI ====================== -->
+<section class="sec" id="cest-quoi">
+  <div class="sec-head">
+    <span class="tag">Les bases</span>
+    <h2>D'abord, comment un appareil vous protège normalement</h2>
+    <p class="sub">Pour comprendre le problème, il faut comprendre à quoi sert le fil de protection —
+      celui qu'on appelle « la terre ».</p>
+  </div>
+
+  <div class="two-col">
+    <div class="card explainer">
+      <h3>Trois fils, trois rôles</h3>
+      <ul class="legend-list">
+        <li><span class="dot" style="--c:var(--phase)"></span><b>Phase (L)</b> — le fil « sous tension » qui amène le courant. En principe brun.</li>
+        <li><span class="dot" style="--c:var(--neutral)"></span><b>Neutre (N)</b> — le fil de retour du courant. En principe bleu (jaune dans les vieilles installations&nbsp;!).</li>
+        <li><span class="dot" style="--c:var(--pe)"></span><b>Protection (PE)</b> — « la terre ». Il ne transporte pas de courant en temps normal&nbsp;: c'est un fil de <em>secours</em>.</li>
+      </ul>
+      <p>Le boîtier métallique d'un appareil est relié au fil <b>PE</b>. Si un fil sous tension touche
+        accidentellement ce boîtier (un <em>défaut</em>), le courant file directement à la terre par le PE.
+        Ce court-circuit fait « sauter » le fusible en une fraction de seconde. Le boîtier ne reste
+        donc jamais dangereux&nbsp;: <b>c'est la coupure automatique en cas de défaut</b>.</p>
+    </div>
+
+    <figure class="card diagram">
+      <figcaption>Installation moderne (système <b>TN‑S</b>) — le PE est un fil séparé et dédié</figcaption>
+      <svg viewBox="0 0 460 320" class="svg-schema" id="schema-tns" role="img" aria-label="Schéma d'une installation moderne avec fil de protection séparé">
+        <!-- rails -->
+        <g class="rails">
+          <line class="wire phase" x1="40" y1="60"  x2="420" y2="60"/>
+          <line class="wire neutral" x1="40" y1="110" x2="420" y2="110"/>
+          <line class="wire pe" x1="40" y1="160" x2="420" y2="160"/>
+        </g>
+        <text class="wl" x="30" y="64" text-anchor="end">L</text>
+        <text class="wl" x="30" y="114" text-anchor="end">N</text>
+        <text class="wl" x="30" y="164" text-anchor="end">PE</text>
+
+        <!-- appliance -->
+        <g class="appliance" transform="translate(300,190)">
+          <rect class="enclosure" x="0" y="0" width="110" height="90" rx="8"/>
+          <text class="apl" x="55" y="52" text-anchor="middle">Appareil</text>
+          <!-- connections -->
+          <line class="wire phase drop" x1="20" y1="0" x2="20" y2="-30"/>
+          <line class="wire neutral drop" x1="55" y1="0" x2="55" y2="-80"/>
+          <line class="wire pe drop" x1="90" y1="0" x2="90" y2="-30"/>
+        </g>
+        <!-- fault spark (hidden until toggled) -->
+        <g class="fault-mark" opacity="0">
+          <path d="M330 175 l8 -12 -5 0 8 -14" class="spark"/>
+        </g>
+        <!-- flowing current dots -->
+        <circle class="pulse p-phase" r="4"/>
+        <text class="ok-badge" x="230" y="300" text-anchor="middle">✔ Boîtier relié à une vraie terre séparée</text>
+      </svg>
+    </figure>
+  </div>
+
+  <div class="sec-head mt">
+    <h2>Le schéma III&nbsp;: la protection « bricolée » avec le fil neutre</h2>
+    <p class="sub">Ici, il n'y a <b>pas</b> de fil de protection dédié. On relie le boîtier de l'appareil
+      au <b>fil neutre</b> par un petit pont, souvent <b>à l'intérieur même de la prise</b>.</p>
+  </div>
+
+  <div class="two-col">
+    <figure class="card diagram">
+      <figcaption>Mise au neutre selon le <b>schéma III</b> — un pont N→PE remplace la terre</figcaption>
+      <svg viewBox="0 0 460 320" class="svg-schema" id="schema-sch3" role="img" aria-label="Schéma de la mise au neutre selon le schéma III avec pont entre neutre et protection">
+        <g class="rails">
+          <line class="wire phase" x1="40" y1="60"  x2="420" y2="60"/>
+          <line class="wire neutral" x1="40" y1="110" x2="420" y2="110"/>
+        </g>
+        <text class="wl" x="30" y="64" text-anchor="end">L</text>
+        <text class="wl" x="30" y="114" text-anchor="end">N</text>
+
+        <g class="appliance" transform="translate(300,190)">
+          <rect class="enclosure" x="0" y="0" width="110" height="90" rx="8"/>
+          <text class="apl" x="55" y="52" text-anchor="middle">Appareil</text>
+          <line class="wire phase drop" x1="20" y1="0" x2="20" y2="-80"/>
+          <line class="wire neutral drop" x1="70" y1="0" x2="70" y2="-80"/>
+          <!-- the bridge N -> enclosure -->
+          <line class="wire bridge" x1="70" y1="-40" x2="95" y2="-40"/>
+          <line class="wire bridge" x1="95" y1="-40" x2="95" y2="0"/>
+        </g>
+        <g class="bridge-callout">
+          <circle cx="395" cy="150" r="26" class="ring"/>
+          <text x="395" y="150" text-anchor="middle" class="ring-label">pont<tspan x="395" dy="14">N→PE</tspan></text>
+        </g>
+        <text class="warn-badge" x="230" y="300" text-anchor="middle">⚠ Le neutre fait double emploi&nbsp;: retour du courant ET protection</text>
+      </svg>
+    </figure>
+
+    <div class="card explainer">
+      <h3>Pourquoi ça « marche »… jusqu'au jour où ça ne marche plus</h3>
+      <p>Le fil neutre est, en temps normal, presque au même potentiel que la terre&nbsp;: 0 volt.
+        Tant que tout est intact, brancher le boîtier au neutre donne l'illusion d'une vraie protection.</p>
+      <p>Mais on a fusionné <b>deux fonctions dans un seul fil</b>&nbsp;: transporter le courant de retour
+        <em>et</em> mettre les boîtiers à la terre. Or ce fil, lui, <b>travaille en permanence</b> — il peut
+        se desserrer, se couper, être inversé avec la phase, ou le petit pont peut être oublié.</p>
+      <div class="callout danger">
+        <b>Le piège&nbsp;:</b> quand ce fil unique lâche, ce ne sont pas seulement les appareils qui
+        s'arrêtent — <b>leurs boîtiers métalliques deviennent électriquement dangereux</b>, parfois sans
+        aucun signe visible.
+      </div>
+      <p class="tiny">Indice pratique&nbsp;: dans ces vieilles installations, le fil neutre est souvent
+        <b>jaune</b> (et non bleu). Le code couleur d'aujourd'hui n'existait pas.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ====================== SCHÉMA II vs III ====================== -->
+<section class="sec alt" id="schemas">
+  <div class="sec-head">
+    <span class="tag">Pour situer</span>
+    <h2>Schéma II, schéma III, TN‑S&nbsp;: quelle différence&nbsp;?</h2>
+    <p class="sub">Trois façons d'organiser le neutre et la terre. Deux sont dépassées.
+      Survolez ou touchez chaque colonne.</p>
+  </div>
+
+  <div class="compare">
+    <article class="compare-col c-warn">
+      <header><h3>Schéma II</h3><span class="badge b-old">Ancien</span></header>
+      <p>Neutre et protection sont <b>regroupés en un seul fil</b> sur les lignes principales.
+        La séparation en deux fils distincts se fait <b>au niveau du coupe‑surintensité d'abonné</b>
+        (près du compteur).</p>
+      <ul>
+        <li>Fil neutre <b>jaune</b></li>
+        <li>Séparation N/PE assez tôt dans l'installation</li>
+        <li>Plus considéré comme état de la technique</li>
+      </ul>
+    </article>
+    <article class="compare-col c-danger">
+      <header><h3>Schéma III</h3><span class="badge b-danger">Dangereux</span></header>
+      <p>La liaison à la « terre » est faite <b>tout au bout</b>, chez le consommateur&nbsp;: un
+        <b>court pont</b> entre le neutre et le boîtier, souvent <b>dans la prise elle‑même</b>.</p>
+      <ul>
+        <li>Fil neutre <b>jaune</b></li>
+        <li>Aucun vrai fil de protection séparé jusqu'à l'appareil</li>
+        <li><b>Dépassé depuis 1985</b> · doit être assaini</li>
+      </ul>
+    </article>
+    <article class="compare-col c-ok">
+      <header><h3>TN‑S</h3><span class="badge b-ok">Actuel</span></header>
+      <p>Trois (ou cinq) fils <b>séparés du début à la fin</b>. Le PE est dédié à la protection et ne
+        transporte jamais le courant d'utilisation.</p>
+      <ul>
+        <li>Neutre <b>bleu</b>, protection <b>vert‑jaune</b></li>
+        <li>Compatible avec les disjoncteurs différentiels (DDR)</li>
+        <li><b>État actuel de la technique</b></li>
+      </ul>
+    </article>
+  </div>
+  <p class="note">L'objectif légal de l'assainissement est d'amener toute installation au
+    <b>système TN</b> (colonne de droite).</p>
+</section>
+
+<!-- ====================== LES PRISES / TIMELINE ====================== -->
+<section class="sec" id="prises">
+  <div class="sec-head">
+    <span class="tag">Les prises suisses</span>
+    <h2>De la T1 à la T13&nbsp;: 70 ans de sécurité qui progresse</h2>
+    <p class="sub">Le type de prise raconte l'âge de l'installation. La <b>T12</b> — sans collerette de
+      protection — est le symbole des installations à assainir.</p>
+  </div>
+
+  <div class="timeline" id="timeline">
+    <div class="tl-track"></div>
+    <button class="tl-item" data-plug="t1" style="--y:'1955'">
+      <span class="tl-year">1955</span><span class="tl-plug plug-t1"></span><span class="tl-name">Type&nbsp;1 / T1</span>
+    </button>
+    <button class="tl-item" data-plug="t12" style="--y:'1960'">
+      <span class="tl-year">≈1960</span><span class="tl-plug plug-t12"></span><span class="tl-name">Type&nbsp;12</span>
+    </button>
+    <button class="tl-item" data-plug="sep" style="--y:'1974'">
+      <span class="tl-year">1974</span><span class="tl-plug plug-flag">⚑</span><span class="tl-name">PE posé séparément</span>
+    </button>
+    <button class="tl-item active" data-plug="t13" style="--y:'2000'">
+      <span class="tl-year">2000+</span><span class="tl-plug plug-t13"></span><span class="tl-name">Type&nbsp;13</span>
+    </button>
+    <button class="tl-item" data-plug="rcd" style="--y:'2010'">
+      <span class="tl-year">2010</span><span class="tl-plug plug-rcd">30<tspan>mA</tspan></span><span class="tl-name">DDR 30&nbsp;mA généralisé</span>
+    </button>
+  </div>
+
+  <div class="plug-detail card" id="plugDetail">
+    <div class="plug-visual">
+      <svg viewBox="0 0 200 200" class="plug-svg" id="plugSvg" role="img" aria-label="Illustration de la prise sélectionnée"></svg>
+    </div>
+    <div class="plug-text">
+      <h3 id="plugTitle">Prise type 13</h3>
+      <p id="plugDesc"></p>
+      <div class="plug-flags" id="plugFlags"></div>
+    </div>
+  </div>
+
+  <div class="callout info wide">
+    <b>Ce qui a changé le 1ᵉʳ janvier 2017&nbsp;:</b> depuis le 31.12.2016, les prises <b>T12</b> (sans
+    collerette de protection) ne peuvent plus être mises sur le marché. Il est interdit de les
+    <b>réinstaller, remplacer ou déplacer</b>. Les nouvelles installations utilisent la <b>T13</b>, qui
+    protège du contact avec les doigts au branchement et au débranchement. Seul le remplacement de la
+    plaque de façade pour <b>réparation</b> reste permis — jamais pour raison esthétique.
+  </div>
+</section>
+
+<!-- ====================== LE DANGER (interactif) ====================== -->
+<section class="sec alt" id="danger">
+  <div class="sec-head">
+    <span class="tag">Le cœur du problème</span>
+    <h2>Une seule erreur suffit à électriser un boîtier</h2>
+    <p class="sub">Choisissez un défaut. Le schéma montre où passe le courant et pourquoi le boîtier
+      métallique devient mortel. Ces trois situations sont réelles et documentées.</p>
+  </div>
+
+  <div class="danger-lab">
+    <div class="lab-controls" role="tablist" aria-label="Scénarios de défaut">
+      <button class="lab-btn active" data-fault="normal" role="tab">✔ Situation normale</button>
+      <button class="lab-btn" data-fault="cut" role="tab">① Neutre coupé</button>
+      <button class="lab-btn" data-fault="swap" role="tab">② Phase &amp; neutre inversés</button>
+      <button class="lab-btn" data-fault="nobridge" role="tab">③ Pont N→PE oublié</button>
+    </div>
+
+    <div class="lab-stage card">
+      <svg viewBox="0 0 640 380" class="lab-svg" id="labSvg" role="img" aria-label="Schéma interactif d'un défaut sur une installation en schéma III">
+        <!-- source -->
+        <g class="lab-source">
+          <rect x="20" y="150" width="70" height="90" rx="8" class="box"/>
+          <text x="55" y="200" text-anchor="middle" class="box-l">Réseau</text>
+        </g>
+        <!-- main wires -->
+        <line class="wire phase"   id="wPhase"   x1="90" y1="175" x2="470" y2="175"/>
+        <line class="wire neutral" id="wNeutral" x1="90" y1="215" x2="470" y2="215"/>
+        <text class="wl" x="105" y="167">L</text>
+        <text class="wl" x="105" y="240">N</text>
+
+        <!-- break marker on neutral -->
+        <g id="breakMark" opacity="0">
+          <line x1="300" y1="205" x2="316" y2="225" class="break"/>
+          <line x1="316" y1="205" x2="300" y2="225" class="break"/>
+        </g>
+
+        <!-- socket + appliance -->
+        <g transform="translate(470,120)">
+          <rect x="0" y="0" width="150" height="180" rx="12" class="enclosure lab-enclosure" id="labEnclosure"/>
+          <text x="75" y="30" text-anchor="middle" class="apl">Appareil</text>
+          <!-- internal wiring -->
+          <line class="wire phase"   x1="0"  y1="55"  x2="45" y2="55"/>
+          <line class="wire neutral" id="wNin" x1="0"  y1="95"  x2="45" y2="95"/>
+          <!-- switch -->
+          <g id="switchG">
+            <circle cx="45" cy="55" r="4" class="node"/>
+            <line id="switchArm" x1="45" y1="55" x2="80" y2="45" class="wire phase sw"/>
+            <circle cx="80" cy="55" r="4" class="node"/>
+            <line class="wire phase" x1="80" y1="55" x2="110" y2="55"/>
+          </g>
+          <!-- motor/load -->
+          <circle cx="110" cy="75" r="20" class="load" id="loadCircle"/>
+          <text x="110" y="80" text-anchor="middle" class="load-l">M</text>
+          <line class="wire neutral" x1="110" y1="95" x2="45" y2="95"/>
+          <!-- bridge N -> enclosure -->
+          <g id="bridgeG">
+            <line class="wire bridge" id="bridgeWire" x1="45" y1="95" x2="30" y2="130"/>
+            <line class="wire bridge" x1="30" y1="130" x2="75" y2="130"/>
+          </g>
+          <!-- enclosure contact point -->
+          <circle cx="75" cy="130" r="4" class="node"/>
+        </g>
+
+        <!-- person -->
+        <g id="personG" transform="translate(560,300)" opacity="0.55">
+          <circle cx="0" cy="-40" r="12" class="person"/>
+          <line x1="0" y1="-28" x2="0" y2="0" class="person"/>
+          <line x1="0" y1="-20" x2="-16" y2="-30" class="person" id="armToBox"/>
+          <line x1="0" y1="-20" x2="14" y2="-8" class="person"/>
+          <line x1="0" y1="0" x2="-12" y2="20" class="person"/>
+          <line x1="0" y1="0" x2="12" y2="20" class="person"/>
+          <line x1="-12" y1="20" x2="-12" y2="40" class="person ground-line"/>
+          <line x1="12" y1="20" x2="12" y2="40" class="person ground-line"/>
+        </g>
+        <line x1="470" y1="360" x2="640" y2="360" class="earth"/>
+        <path d="M540 360 v-6 M552 360 v-10 M564 360 v-6" class="earth-hatch"/>
+
+        <!-- danger glow overlay -->
+        <rect x="470" y="120" width="150" height="180" rx="12" class="glow" id="dangerGlow" opacity="0"/>
+
+        <!-- animated current -->
+        <circle class="lab-pulse" id="labPulse" r="5" opacity="0"/>
+        <circle class="lab-pulse danger" id="labPulse2" r="5" opacity="0"/>
+      </svg>
+
+      <div class="lab-readout">
+        <div class="verdict" id="verdict"><span class="v-icon">✔</span><span class="v-text">Tout va bien</span></div>
+        <p class="verdict-desc" id="verdictDesc">Le courant part de la phase, traverse l'appareil et
+          revient par le neutre. Le boîtier reste à 0 volt&nbsp;: aucun danger.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="danger-more">
+    <h3>Et ce n'est pas tout&nbsp;: 5 autres raisons de s'inquiéter</h3>
+    <div class="grid-4">
+      <div class="mini-card"><span class="mi">🔌</span><b>Le DDR ne peut pas protéger</b><p>Impossible d'installer une vraie protection différentielle en amont&nbsp;; on ne peut protéger que prise par prise, à grands frais.</p></div>
+      <div class="mini-card"><span class="mi">📏</span><b>Contrôle impossible</b><p>Les mesures d'isolement qui vérifient l'état de l'installation ne sont réalisables qu'au prix d'efforts démesurés — ou pas du tout.</p></div>
+      <div class="mini-card"><span class="mi">📡</span><b>Perturbations (CEM)</b><p>Incompatible avec le photovoltaïque, les batteries et les bornes de recharge modernes&nbsp;: parasites garantis.</p></div>
+      <div class="mini-card"><span class="mi">🔥</span><b>Risque d'incendie</b><p>Beaucoup de ces câbles ont une gaine en coton&nbsp;; après 50 ans, l'isolation vieillit et le code couleur devient illisible.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ====================== LE DDR ====================== -->
+<section class="sec" id="ddr">
+  <div class="sec-head">
+    <span class="tag">Le gardien moderne</span>
+    <h2>Le DDR&nbsp;: l'interrupteur qui vous sauve en 3 centièmes de seconde</h2>
+    <p class="sub">DDR = <b>dispositif différentiel à courant résiduel</b> (aussi appelé disjoncteur
+      différentiel, FI, ou RCD). Depuis 2010, il est exigé pour protéger les prises courantes.</p>
+  </div>
+
+  <div class="two-col">
+    <div class="card explainer">
+      <h3>Comment il « sent » le danger</h3>
+      <p>Le DDR compare en permanence le courant qui <b>part</b> par la phase et celui qui <b>revient</b>
+        par le neutre. Normalement, ils sont identiques.</p>
+      <p>Si une partie du courant s'échappe ailleurs — par exemple <b>à travers votre corps</b> vers la
+        terre — la balance se déséquilibre. Dès que la fuite atteint <b>30&nbsp;milliampères</b>, le DDR
+        <b>coupe tout</b> en une fraction de seconde. Trop court pour que votre cœur soit en danger.</p>
+      <div class="callout ok">
+        On le reconnaît à son <b>bouton « Test »</b>. Il protège à la fois contre l'<b>électrocution</b> et
+        contre certains <b>incendies</b>.
+      </div>
+      <p class="tiny"><b>Le hic avec le schéma III&nbsp;:</b> comme le neutre et la protection sont le même
+        fil, le DDR verrait un « déséquilibre » permanent et ne pourrait pas fonctionner correctement.
+        C'est l'une des raisons pour lesquelles le schéma III doit disparaître.</p>
+    </div>
+
+    <figure class="card diagram ddr-demo">
+      <figcaption>Le DDR surveille l'équilibre — touchez « Simuler une fuite »</figcaption>
+      <svg viewBox="0 0 420 300" class="svg-schema" id="ddrSvg" role="img" aria-label="Fonctionnement d'un disjoncteur différentiel">
+        <rect x="150" y="40" width="120" height="70" rx="10" class="ddr-body"/>
+        <text x="210" y="72" text-anchor="middle" class="ddr-title">DDR</text>
+        <text x="210" y="92" text-anchor="middle" class="ddr-sub">IΔn 30 mA</text>
+        <circle cx="255" cy="55" r="7" class="test-btn"/><text x="255" y="58" text-anchor="middle" class="test-t">T</text>
+
+        <line class="wire phase" x1="90" y1="60" x2="150" y2="60"/>
+        <line class="wire neutral" x1="90" y1="90" x2="150" y2="90"/>
+        <line class="wire phase" id="ddrPhaseOut" x1="270" y1="60" x2="360" y2="60"/>
+        <line class="wire neutral" id="ddrNeutralOut" x1="270" y1="90" x2="360" y2="90"/>
+
+        <g transform="translate(300,120)">
+          <rect x="0" y="0" width="90" height="80" rx="8" class="enclosure"/>
+          <text x="45" y="45" text-anchor="middle" class="apl">Appareil</text>
+        </g>
+        <!-- leakage path -->
+        <path id="leakPath" d="M345 200 q10 40 -30 60 q-40 20 -60 20" class="leak" opacity="0"/>
+        <g id="personDDR" transform="translate(250,290)" opacity="0">
+          <circle cx="0" cy="-10" r="8" class="person"/>
+        </g>
+        <line x1="150" y1="285" x2="360" y2="285" class="earth"/>
+
+        <circle class="ddr-pulse" id="ddrPulseA" r="4"/>
+        <circle class="ddr-pulse" id="ddrPulseB" r="4"/>
+
+        <text x="210" y="160" text-anchor="middle" class="ddr-status" id="ddrStatus">Équilibré ✔</text>
+      </svg>
+      <button class="btn btn-small" id="ddrLeakBtn">⚡ Simuler une fuite</button>
+    </figure>
+  </div>
+</section>
+
+<!-- ====================== LA LOI ====================== -->
+<section class="sec alt" id="loi">
+  <div class="sec-head">
+    <span class="tag">Le cadre légal</span>
+    <h2>Ce que disent les autorités — et pourquoi vous êtes concerné</h2>
+    <p class="sub">Sources officielles&nbsp;: OIBT, ordonnance sur le courant fort, et directive
+      <b>ESTI n°225</b> (version 0824, en vigueur depuis le 1ᵉʳ août 2024).</p>
+  </div>
+
+  <div class="law-grid">
+    <div class="law-card">
+      <span class="law-ic">⚖️</span>
+      <h3>Plus de « droits acquis »</h3>
+      <p>On ne peut plus se justifier en disant « c'était aux normes à l'époque ». L'OIBT (art. 3 et 4) et
+        l'ordonnance sur le courant fort imposent d'adapter les installations dangereuses à
+        <b>l'état actuel de la technique</b> dès qu'une occasion se présente.</p>
+    </div>
+    <div class="law-card">
+      <span class="law-ic">🗓️</span>
+      <h3>Contrôle tous les 5 ans</h3>
+      <p>Depuis le 1ᵉʳ juillet 2021, dès qu'une installation contient <b>ne serait‑ce qu'un élément</b> en
+        schéma III, <b>toute</b> l'installation passe à une période de contrôle raccourcie de
+        <b>5 ans</b> (au lieu de 10, 20 ou plus).</p>
+    </div>
+    <div class="law-card">
+      <span class="law-ic">📄</span>
+      <h3>Plus de rapport de sécurité</h3>
+      <p>Dans beaucoup de cas, les organismes de contrôle ne délivrent <b>plus de rapport de sécurité</b>
+        pour une installation en schéma III. Lors de travaux, l'installateur commencera par
+        l'assainir avant toute autre chose.</p>
+    </div>
+    <div class="law-card danger-card">
+      <span class="law-ic">🧑‍⚖️</span>
+      <h3>Votre responsabilité</h3>
+      <p>Le <b>propriétaire</b> est responsable en premier lieu. S'il n'assainit pas une installation qu'il
+        sait non conforme, il en assume les conséquences <b>civiles et pénales</b>, notamment
+        <b>en cas d'accident</b>.</p>
+    </div>
+  </div>
+
+  <div class="law-refs">
+    <h4>Les textes de référence</h4>
+    <ul>
+      <li><b>OIBT</b> — Ordonnance sur les installations à basse tension (RS 734.27), art. 3, 4 et 5.</li>
+      <li><b>Ordonnance sur le courant fort</b> (RS 734.2) — obligation d'assainir les installations dangereuses.</li>
+      <li><b>Directive ESTI n°225</b> (version 0824) — assainissement des installations en schéma III.</li>
+      <li><b>NIBT 2010</b>, art. 4.1.1.3.3 — DDR 30 mA obligatoire pour les prises jusqu'à 32 A.</li>
+      <li>Fin des prises <b>T12</b> — communiqué ESTI, applicable dès le 1ᵉʳ janvier 2017.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ====================== QUE FAIRE ====================== -->
+<section class="sec" id="faire">
+  <div class="sec-head">
+    <span class="tag">Passer à l'action</span>
+    <h2>Vous êtes propriétaire ou locataire&nbsp;? Voici la marche à suivre</h2>
+  </div>
+
+  <div class="steps">
+    <div class="step">
+      <span class="step-n">1</span>
+      <h3>Repérer les indices</h3>
+      <p>Bâtiment d'avant ~1970&nbsp;? Prises <b>T12</b> sans collerette&nbsp;? Fils <b>neutres jaunes</b>&nbsp;?
+        Période de contrôle déjà ramenée à <b>5 ans</b> sur votre rapport&nbsp;? Autant de signaux forts.</p>
+    </div>
+    <div class="step">
+      <span class="step-n">2</span>
+      <h3>Faire diagnostiquer</h3>
+      <p>Un <b>installateur‑électricien</b> ou un <b>conseiller en sécurité électrique</b> confirme en une
+        visite la présence d'éléments en schéma III et évalue l'ampleur des travaux.</p>
+    </div>
+    <div class="step">
+      <span class="step-n">3</span>
+      <h3>Assainir vers le système TN</h3>
+      <p>Concrètement&nbsp;: remplacer le <b>tableau électrique</b> (boîte à fusibles), poser de vrais
+        <b>conducteurs de protection</b>, souvent renouveler les <b>canalisations</b> et les
+        <b>prises</b> (T13), et adapter le raccordement des appareils et luminaires.</p>
+    </div>
+    <div class="step">
+      <span class="step-n">4</span>
+      <h3>Y gagner plus que la sécurité</h3>
+      <p>Une installation assainie, c'est aussi <b>plus de confort</b>, la possibilité d'ajouter des
+        <b>DDR</b>, du photovoltaïque, une <b>borne de recharge</b>, et une vraie tranquillité d'esprit.</p>
+    </div>
+  </div>
+
+  <div class="essentials card">
+    <h3>L'essentiel en bref</h3>
+    <ul class="check">
+      <li>Les installations en <b>schéma III</b> ne sont plus conformes à l'état de la technique et
+        <b>doivent être assainies</b>.</li>
+      <li>Une <b>seule erreur</b> (neutre coupé, phase/neutre inversés, pont oublié) peut rendre un
+        boîtier <b>mortel</b>.</li>
+      <li>Contrôle obligatoire <b>tous les 5 ans</b> tant qu'il reste des éléments en schéma III.</li>
+      <li>La vraie protection moderne, le <b>DDR</b>, n'y est pas réalisable correctement.</li>
+      <li>Le <b>propriétaire</b> est responsable — y compris pénalement en cas d'accident.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ====================== FAQ ====================== -->
+<section class="sec alt" id="faq">
+  <div class="sec-head"><span class="tag">Questions fréquentes</span><h2>On vous répond</h2></div>
+  <div class="faq">
+    <details><summary>Est‑ce que je risque quelque chose au quotidien&nbsp;?</summary>
+      <p>Tant que tout est intact, l'installation « fonctionne ». Le danger apparaît en cas de défaut
+        (fil desserré, coupé, inversé), et rien ne vous prévient à l'avance&nbsp;: le boîtier d'un
+        appareil peut être sous tension sans que rien ne le laisse deviner. C'est précisément ce
+        caractère imprévisible qui rend le schéma III dangereux.</p></details>
+    <details><summary>Puis‑je juste ajouter un DDR pour être tranquille&nbsp;?</summary>
+      <p>Malheureusement non, pas correctement. Dans une installation en schéma III, le neutre et la
+        protection sont le même fil&nbsp;: un DDR classique ne peut pas être posé en amont. On peut au
+        mieux protéger quelques prises individuelles (solution partielle et coûteuse), mais pas les
+        lignes, l'éclairage ni les appareils raccordés à demeure.</p></details>
+    <details><summary>Mes prises T12 sont‑elles interdites&nbsp;?</summary>
+      <p>Depuis 2017, on ne peut plus les mettre sur le marché, ni les réinstaller, remplacer ou
+        déplacer. Les installations existantes ne deviennent pas illégales du jour au lendemain, mais
+        tout nouveau travail impose de passer aux prises T13 — et la présence de T12 va souvent de pair
+        avec une installation en schéma III à assainir.</p></details>
+    <details><summary>Combien de temps ai‑je pour assainir&nbsp;?</summary>
+      <p>Il n'y a pas de « date couperec » unique pour tous, mais l'obligation d'assainir est réelle et
+        se déclenche notamment lors de transformations, de modifications importantes, ou d'un danger
+        avéré. La période de contrôle raccourcie à 5 ans est faite pour accélérer le mouvement. En
+        pratique&nbsp;: mieux vaut planifier les travaux sans attendre.</p></details>
+    <details><summary>Qui paie&nbsp;: propriétaire ou locataire&nbsp;?</summary>
+      <p>La responsabilité de la sécurité de l'installation incombe au <b>propriétaire</b>. Si vous êtes
+        locataire et repérez des indices (prises T12, fils jaunes), signalez‑le par écrit à votre
+        régie ou propriétaire&nbsp;: c'est à lui d'agir.</p></details>
+  </div>
+</section>
+
+<!-- ====================== FOOTER ====================== -->
+<footer class="footer">
+  <div class="foot-inner">
+    <div class="foot-col">
+      <div class="brand foot-brand">
+        <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path d="M13 2 3 14h7l-1 8 10-12h-7z" fill="currentColor"/></svg>
+        <span>Schéma&nbsp;III · T12</span>
+      </div>
+      <p>Site pédagogique indépendant à but d'information. Il vulgarise des documents officiels et ne
+        remplace pas l'avis d'un professionnel agréé.</p>
+    </div>
+    <div class="foot-col">
+      <h4>Sources officielles</h4>
+      <ul>
+        <li>Directive ESTI n°225 (version 0824)</li>
+        <li>ESTI — Fin opérationnelle des prises T12 (Bulletin 8/2016)</li>
+        <li>Flyer EIT.swiss — Assainissement schéma III</li>
+        <li>Bulletin Electrosuisse — Le DDR dans les installations existantes</li>
+        <li>OIBT (RS 734.27) · Ordonnance courant fort (RS 734.2) · NIBT 2010</li>
+      </ul>
+    </div>
+    <div class="foot-col">
+      <h4>En cas de doute</h4>
+      <p>Contactez un <b>installateur‑électricien</b> ou un <b>conseiller en sécurité électrique</b>
+        agréé. Pour les questions réglementaires&nbsp;: <b>ESTI</b>, Inspection fédérale des
+        installations à courant fort (esti.admin.ch).</p>
+    </div>
+  </div>
+  <div class="foot-bottom">
+    <span>⚠ Ne réalisez jamais vous‑même de travaux sur une installation électrique fixe.</span>
+    <span>Contenu vulgarisé · 2025</span>
+  </div>
+</footer>
+
+<button class="to-top" id="toTop" aria-label="Retour en haut">↑</button>
+
+<script src="script.js"></script>
+</body>
+</html>
