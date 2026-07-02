@@ -61,55 +61,35 @@
     }
   };
 
-  // Prise suisse réaliste : plaque blanche, trous ronds, vis centrale, collerette hexagonale (T13)
+  // Prise suisse (vue de face), fidèle aux modèles réels
   function socketSVG(kind) {
+    const wrap = inner => `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">${inner}</svg>`;
     const plate = `
-      <rect x="14" y="14" width="172" height="172" rx="26" fill="#eef1f4" stroke="#c9d0d8" stroke-width="2"/>
-      <rect x="26" y="26" width="148" height="148" rx="18" fill="#f9fafb" stroke="#dde2e8" stroke-width="1.5"/>`;
-    const hole = '#232a30';
-    // hexagone "flat-top" à pointes gauche/droite (comme la vraie T13)
-    const hex = '74,70 126,70 152,105 126,140 74,140 48,105';
-    let collar = '', holes, screw, fiche = '', overlay = '';
+      <rect x="10" y="10" width="180" height="180" rx="24" fill="#eef1f4" stroke="#c7ced7" stroke-width="2"/>
+      <rect x="30" y="30" width="140" height="140" rx="14" fill="#fafbfc" stroke="#dbe0e7" stroke-width="1.5"/>`;
+    const hole = '#171b20';
+    const screw = `
+      <circle cx="100" cy="80" r="8" fill="#c2c8cf" stroke="#98a0aa" stroke-width="1.5"/>
+      <line x1="93.5" y1="80" x2="106.5" y2="80" stroke="#7c838c" stroke-width="1.8"/>`;
+    const holes3 = `
+      <circle cx="80" cy="104" r="9" fill="${hole}"/>
+      <circle cx="120" cy="104" r="9" fill="${hole}"/>
+      <circle cx="100" cy="133" r="9" fill="${hole}"/>`;
 
     if (kind === 't1') {
-      holes = `<circle cx="78" cy="100" r="11" fill="${hole}"/><circle cx="122" cy="100" r="11" fill="${hole}"/>`;
-      screw = '';
-    } else {
-      // 3 trous : deux en haut (L, N) + un en bas (PE), vis au sommet
-      holes = `
-        <circle cx="79" cy="106" r="10" fill="${hole}"/>
-        <circle cx="121" cy="106" r="10" fill="${hole}"/>
-        <circle cx="100" cy="138" r="10" fill="${hole}"/>`;
-      screw = `
-        <circle cx="100" cy="80" r="8.5" fill="#c2c8cf" stroke="#9aa1ab" stroke-width="1.5"/>
-        <line x1="93" y1="80" x2="107" y2="80" stroke="#7f868f" stroke-width="1.8"/>`;
-
-      if (kind === 't13') {
-        // collerette hexagonale en relief (protège du contact)
-        collar = `
-          <polygon points="${hex}" fill="#ffffff" stroke="#cdd4dc" stroke-width="2.5"/>
-          <polygon points="${hex}" fill="none" stroke="#f2f5f8" stroke-width="5" opacity=".8"/>`;
-        overlay = `<polygon class="shield" points="${hex}"/>
-          <text class="cap-ok" x="100" y="190" text-anchor="middle">contact protégé ✔</text>`;
-      } else {
-        // T12 : face plate, pas de collerette → broches accessibles
-        overlay = `<g class="expose">
-            <path d="M52 92 a14 14 0 0 0 0 28" fill="none" stroke="#ff4d4f" stroke-width="3.5"/>
-            <path d="M148 92 a14 14 0 0 1 0 28" fill="none" stroke="#ff4d4f" stroke-width="3.5"/>
-          </g>
-          <text class="cap-bad" x="100" y="190" text-anchor="middle">broches accessibles ⚠</text>`;
-      }
-      // fiche animée (corps + cordon + 3 broches alignées sur les trous)
-      fiche = `<g class="fiche">
-          <rect x="88" y="24" width="24" height="16" rx="4" fill="#3d4658"/>
-          <rect x="54" y="40" width="92" height="40" rx="14" fill="#2b3242" stroke="#4a5670" stroke-width="2"/>
-          <rect x="75" y="78" width="8" height="30" rx="4" fill="#cfd3da"/>
-          <rect x="117" y="78" width="8" height="30" rx="4" fill="#cfd3da"/>
-          <rect x="96" y="78" width="8" height="62" rx="4" fill="#cfd3da"/>
-        </g>`;
+      return wrap(plate +
+        `<circle cx="82" cy="100" r="10" fill="${hole}"/><circle cx="118" cy="100" r="10" fill="${hole}"/>`);
     }
-    return `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-      ${plate}${collar}${holes}${screw}${overlay}${fiche}</svg>`;
+    if (kind === 't13') {
+      // collerette hexagonale discrète, en léger renfoncement (comme la vraie T13)
+      const hex = '74,72 126,72 150,105 126,138 74,138 50,105';
+      const collar = `
+        <polygon points="${hex}" fill="#f1f4f7" stroke="#c6cdd6" stroke-width="1.8"/>
+        <polygon points="${hex}" fill="none" stroke="#ffffff" stroke-width="1.2" opacity=".9"/>`;
+      return wrap(plate + collar + screw + holes3);
+    }
+    // T12 : face plate, sans collerette
+    return wrap(plate + screw + holes3);
   }
   function flagSVG() {
     return `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
