@@ -130,62 +130,8 @@
   $$('.tl-item').forEach(i => i.addEventListener('click', () => selectPlug(i.dataset.plug)));
   selectPlug('t13');
 
-  /* ===================================================================
-     DANGER LAB — fault scenarios
-     =================================================================== */
-  const lab = {
-    svg: $('#labSvg'),
-    enclosure: $('#labEnclosure'),
-    glow: $('#dangerGlow'),
-    breakMark: $('#breakMark'),
-    switchArm: $('#switchArm'),
-    person: $('#personG'),
-    verdict: $('#verdict'),
-    vText: $('.v-text', $('#verdict')),
-    vIcon: $('.v-icon', $('#verdict')),
-    desc: $('#verdictDesc'),
-    pulse: $('#labPulse'),
-    pulse2: $('#labPulse2')
-  };
-
-  // Coordonnées calquées sur les fils réellement dessinés dans le SVG
-  const LOOP = [[90,175],[470,175],[515,175],[550,175],[580,175],[580,215],[515,215],[470,215],[90,215]];
-  const FAULTS = {
-    normal: {
-      label: 'Tout va bien', icon: '✔', bad: false,
-      desc: "Le courant part de la phase (brun), traverse l'appareil et revient par le neutre (bleu). Le boîtier reste à 0 volt : aucun danger.",
-      show: { break: false, glow: false, person: 0.5, switchOpen: false },
-      path: LOOP,
-      danger: false
-    },
-    cut: {
-      label: 'Danger : boîtier sous tension', icon: '⚡', bad: true,
-      desc: "Le fil neutre est coupé en aval. Comme il servait AUSSI de protection (le pont N→PE), le courant cherche un autre retour : il passe par le boîtier métallique puis par la personne qui le touche. Le boîtier est sous tension et le fusible ne saute pas.",
-      show: { break: true, glow: true, person: 1, switchOpen: false },
-      path: [[90,175],[470,175],[515,175],[580,175],[580,215],[515,215],[500,250],[545,250],[544,270],[556,345]],
-      danger: true
-    },
-    swap: {
-      label: 'Danger : boîtier sous tension', icon: '⚡', bad: true,
-      desc: "La phase et le neutre ont été inversés à un raccordement. Le pont amène alors directement la PHASE sur le boîtier — même interrupteur ouvert, appareil éteint. Toucher le boîtier revient à toucher la phase.",
-      show: { break: false, glow: true, person: 1, switchOpen: true },
-      path: [[90,215],[470,215],[515,215],[500,250],[545,250],[544,270],[556,345]],
-      danger: true
-    },
-    nobridge: {
-      label: 'Danger latent : plus aucune protection', icon: '⚡', bad: true,
-      desc: "Lors d'un remplacement de prise, le petit pont N→PE a été oublié. Le boîtier n'est plus relié à rien : pas de tension tout de suite… mais au premier défaut interne, plus rien ne le met à la terre ni ne fait sauter le fusible.",
-      show: { break: false, glow: true, person: 1, switchOpen: false, noBridge: true },
-      path: LOOP,
-      danger: true, latent: true
-    }
-  };
-
-  let anim = null, t = 0;
-  function stopAnim() { if (anim) cancelAnimationFrame(anim); anim = null; }
-
+  /* utilitaire partagé (DDR + scène) : position le long d'une polyligne */
   function lerpPath(pts, tt) {
-    // total length
     let segs = [], total = 0;
     for (let i = 0; i < pts.length - 1; i++) {
       const dx = pts[i+1][0]-pts[i][0], dy = pts[i+1][1]-pts[i][1];
@@ -201,64 +147,6 @@
     }
     return pts[pts.length - 1];
   }
-
-  function applyFault(key) {
-    const f = FAULTS[key];
-    stopAnim();
-    // toggles
-    lab.breakMark.setAttribute('opacity', f.show.break ? '1' : '0');
-    lab.glow.classList.toggle('on', !!f.show.glow);
-    lab.glow.classList.toggle('warn', !!f.latent);
-    lab.person.setAttribute('opacity', f.show.person);
-    lab.switchArm.style.transform = f.show.switchOpen ? 'rotate(-24deg)' : 'none';
-    lab.switchArm.style.transformOrigin = '45px 55px';
-    $('#bridgeG').style.opacity = f.show.noBridge ? '0.18' : '1';
-
-    // enclosure danger state (fill léger pour rester lisible)
-    if (f.danger && !f.latent) {
-      lab.enclosure.style.stroke = 'var(--danger)';
-      lab.enclosure.style.fill = 'rgba(255,77,79,.06)';
-    } else if (f.latent) {
-      lab.enclosure.style.stroke = 'var(--warn)';
-      lab.enclosure.style.fill = 'rgba(240,160,32,.05)';
-    } else {
-      lab.enclosure.style.stroke = 'var(--ok)';
-      lab.enclosure.style.fill = '#1b2439';
-    }
-
-    // verdict
-    lab.verdict.classList.toggle('bad', f.bad);
-    lab.vText.textContent = f.label;
-    lab.vIcon.textContent = f.icon;
-    lab.desc.textContent = f.desc;
-
-    // animate current dot(s)
-    const dangerFlow = f.danger && !f.latent;
-    lab.pulse.setAttribute('opacity', '1');
-    lab.pulse.setAttribute('fill', 'var(--phase)');
-    lab.pulse2.setAttribute('opacity', dangerFlow ? '1' : '0');
-
-    t = 0;
-    const speed = dangerFlow ? 0.012 : 0.007;
-    const loop = () => {
-      t += speed; if (t > 1) t = 0;
-      const p = lerpPath(f.path, t);
-      lab.pulse.setAttribute('cx', p[0]); lab.pulse.setAttribute('cy', p[1]);
-      if (dangerFlow) {
-        const p2 = lerpPath(f.path, (t + 0.5) % 1);
-        lab.pulse2.setAttribute('cx', p2[0]); lab.pulse2.setAttribute('cy', p2[1]);
-      }
-      anim = requestAnimationFrame(loop);
-    };
-    loop();
-  }
-
-  $$('.lab-btn').forEach(b => b.addEventListener('click', () => {
-    $$('.lab-btn').forEach(x => x.classList.remove('active'));
-    b.classList.add('active');
-    applyFault(b.dataset.fault);
-  }));
-  applyFault('normal');
 
   /* ===================================================================
      DDR DEMO
@@ -315,89 +203,115 @@
   });
 
   /* ===================================================================
-     SCÈNE — installation (moderne / schéma III) × état (sans / avec défaut)
+     SCÈNE — installation × situation (dont les 3 défauts du schéma III)
      =================================================================== */
   const scene = {
     wrap: $('#sceneWrap'), pulse: $('#scenePulse'), cap: $('#sceneCaption'),
     fuseBox: $('#fuseBox'), fuseTxt: $('#fuseTxt'),
-    person: $('#scenePerson'), personLbl: $('#personLbl')
+    person: $('#scenePerson'), personLbl: $('#personLbl'),
+    pont: $('#pont'), scenBtns: $('#scenBtns')
   };
-  const LOOP_N   = [[108,62],[244,62],[244,152],[272,152],[272,86],[108,86]];
-  const PATH_PE  = [[243,178],[212,250],[212,286],[150,286],[150,304]];
-  const PATH_BODY = [[243,178],[300,205],[356,228],[430,210],[430,252],[420,304]];
-  const COMBO = {
+  const OVL = ['gBolt', 'gCut', 'gSwap', 'gNobridge'];
+  const LOOP_N    = [[108,62],[244,62],[244,152],[272,152],[272,86],[108,86]];
+  const PATH_PE   = [[243,178],[212,250],[212,286],[150,286],[150,304]];
+  const PATH_BODY = [[243,178],[300,205],[356,228],[430,212],[430,252],[420,304]];
+  const PATH_SWAP = [[182,86],[272,86],[272,124],[306,124],[306,176],[356,228],[430,212],[430,252],[420,304]];
+  const SC = {
     modern_ok: {
-      tone: 'ok', color: 'var(--phase)', path: LOOP_N, speed: 0.006,
-      fuse: ['sous tension', 'f-ok'], person: ['', 'p-none'],
+      install: 'modern', tone: 'ok', col: 'var(--phase)', path: LOOP_N, spd: 0.006,
+      fuse: ['sous tension', 'f-ok'], pers: ['', 'p-none'], show: [],
       cap: "Fonctionnement normal&nbsp;: le courant circule entre la phase et le neutre. Le " +
-           "<b>fil de sécurité</b> (vert‑jaune) ne transporte rien — il attend, prêt à agir en cas de défaut."
+           "<b>fil de sécurité</b> (vert‑jaune) ne transporte rien — il attend, prêt à agir."
     },
     modern_fault: {
-      tone: 'safe', color: 'var(--pe)', path: PATH_PE, speed: 0.01,
-      fuse: ['SAUTÉ ✔', 'f-good'], person: ["à l'abri ✔", 'p-safe'],
+      install: 'modern', tone: 'safe', col: 'var(--pe)', path: PATH_PE, spd: 0.01,
+      fuse: ['SAUTÉ ✔', 'f-good'], pers: ["à l'abri ✔", 'p-safe'], show: ['gBolt'],
       cap: "Un fil se détache et touche le boîtier. Le <b>fil de sécurité</b> l'évacue aussitôt vers le " +
-           "sol&nbsp;: un fort courant passe et <b>fait sauter le fusible</b>. Le boîtier n'est plus sous " +
-           "tension — vous êtes à l'abri."
+           "sol&nbsp;: un fort courant passe et <b>fait sauter le fusible</b>. Vous êtes à l'abri."
     },
     sch3_ok: {
-      tone: 'warn', color: 'var(--phase)', path: LOOP_N, speed: 0.006,
-      fuse: ['sous tension', 'f-ok'], person: ['', 'p-none'],
+      install: 'sch3', tone: 'warn', col: 'var(--phase-old)', path: LOOP_N, spd: 0.006,
+      fuse: ['sous tension', 'f-ok'], pers: ['', 'p-none'], show: [],
       cap: "En apparence, tout marche. Le boîtier est relié au neutre par un pont&nbsp;: tant que rien ne " +
            "casse, il reste à 0&nbsp;V. C'est <b>l'illusion de sécurité</b> du schéma III."
     },
-    sch3_fault: {
-      tone: 'danger', color: 'var(--danger)', path: PATH_BODY, speed: 0.011,
-      fuse: ['resté actif ✗', 'f-bad'], person: ['⚡ électrisé', 'p-live'],
-      cap: "Un fil touche le boîtier <b>et</b> le neutre — le seul fil qui servait de « terre » — est " +
-           "<b>coupé</b>. Plus de sortie de secours&nbsp;: le courant traverse le boîtier, puis <b>vous</b>. " +
-           "Le <b>fusible ne saute pas</b>, et aucun DDR ne peut rattraper le coup."
+    cut: {
+      install: 'sch3', tone: 'danger', col: 'var(--danger)', path: PATH_BODY, spd: 0.011,
+      fuse: ['resté actif ✗', 'f-bad'], pers: ['⚡ électrisé', 'p-live'], show: ['gBolt', 'gCut'],
+      cap: "<b>Neutre coupé.</b> Le seul fil qui servait de « terre » est interrompu. Au moindre défaut, " +
+           "plus d'évacuation&nbsp;: le courant traverse le boîtier, puis <b>vous</b>. Le fusible ne saute pas."
+    },
+    swap: {
+      install: 'sch3', tone: 'danger', col: 'var(--danger)', path: PATH_SWAP, spd: 0.011,
+      fuse: ['resté actif ✗', 'f-bad'], pers: ['⚡ électrisé', 'p-live'], show: ['gSwap'],
+      cap: "<b>Phase et neutre inversés</b> à un raccordement. Le pont amène alors la phase " +
+           "<b>directement sur le boîtier</b> — dangereux même appareil éteint et interrupteur ouvert."
+    },
+    nobridge: {
+      install: 'sch3', tone: 'danger', col: 'var(--danger)', path: PATH_BODY, spd: 0.011,
+      fuse: ['resté actif ✗', 'f-bad'], pers: ['⚡ électrisé', 'p-live'], show: ['gBolt', 'gNobridge'],
+      cap: "<b>Pont oublié.</b> Lors d'un changement de prise, la liaison au boîtier n'a pas été refaite. " +
+           "Le boîtier n'est plus relié à rien&nbsp;: au défaut, rien ne l'évacue ni ne fait sauter le fusible."
     }
   };
-  let sceneAnim = null, st = 0, sceneInstall = 'modern', sceneState = 'ok';
+  const CASES = {
+    modern: [['ok', 'Sans défaut'], ['fault', 'Avec défaut']],
+    sch3: [['ok', 'Sans défaut'], ['cut', 'Neutre coupé'], ['swap', 'Phase/neutre inversés'], ['nobridge', 'Pont oublié']]
+  };
+  let sceneAnim = null, st = 0, sceneInstall = 'modern', sceneCase = 'ok';
+  function effKey() {
+    if (sceneInstall === 'modern') return sceneCase === 'ok' ? 'modern_ok' : 'modern_fault';
+    return sceneCase === 'ok' ? 'sch3_ok' : sceneCase;
+  }
   function stopScene() { if (sceneAnim) cancelAnimationFrame(sceneAnim); sceneAnim = null; }
   function renderScene() {
     stopScene();
-    const c = COMBO[sceneInstall + '_' + sceneState];
-    scene.wrap.dataset.install = sceneInstall;
-    scene.wrap.dataset.state = sceneState;
+    const c = SC[effKey()];
+    scene.wrap.dataset.install = c.install;
     scene.wrap.dataset.tone = c.tone;
+    OVL.forEach(id => { const el = document.getElementById(id); if (el) el.style.display = c.show.includes(id) ? '' : 'none'; });
+    if (scene.pont) scene.pont.style.opacity = c.show.includes('gNobridge') ? '0.22' : '1';
     scene.fuseBox.setAttribute('class', 'box ' + c.fuse[1]);
     scene.fuseTxt.setAttribute('class', c.fuse[1] + '-t');
     scene.fuseTxt.textContent = c.fuse[0];
-    scene.personLbl.textContent = c.person[0];
-    scene.personLbl.setAttribute('class', c.person[1]);
-    scene.person.classList.toggle('live', c.person[1] === 'p-live');
+    scene.personLbl.textContent = c.pers[0];
+    scene.personLbl.setAttribute('class', c.pers[1]);
+    scene.person.classList.toggle('live', c.pers[1] === 'p-live');
     scene.cap.innerHTML = c.cap;
-    scene.pulse.setAttribute('fill', c.color);
+    scene.pulse.setAttribute('fill', c.col);
     scene.pulse.setAttribute('opacity', '1');
     st = 0;
     const loop = () => {
-      st += c.speed; if (st > 1) st = 0;
+      st += c.spd; if (st > 1) st = 0;
       const p = lerpPath(c.path, st);
       scene.pulse.setAttribute('cx', p[0]); scene.pulse.setAttribute('cy', p[1]);
       sceneAnim = requestAnimationFrame(loop);
     };
     loop();
   }
+  function buildCases() {
+    scene.scenBtns.innerHTML = CASES[sceneInstall]
+      .map((o, i) => `<button class="scene-btn2${i === 0 ? ' active' : ''}" data-case="${o[0]}" role="tab">${o[1]}</button>`).join('');
+    sceneCase = 'ok';
+    $$('.scene-btn2', scene.scenBtns).forEach(b => b.addEventListener('click', () => {
+      $$('.scene-btn2', scene.scenBtns).forEach(x => x.classList.remove('active'));
+      b.classList.add('active'); sceneCase = b.dataset.case; renderScene();
+    }));
+  }
   $$('.scene-btn').forEach(b => b.addEventListener('click', () => {
     $$('.scene-btn').forEach(x => x.classList.remove('active'));
-    b.classList.add('active'); sceneInstall = b.dataset.install; renderScene();
+    b.classList.add('active'); sceneInstall = b.dataset.install; buildCases(); renderScene();
   }));
-  $$('.scene-btn2').forEach(b => b.addEventListener('click', () => {
-    $$('.scene-btn2').forEach(x => x.classList.remove('active'));
-    b.classList.add('active'); sceneState = b.dataset.state; renderScene();
-  }));
-  renderScene();
+  buildCases(); renderScene();
 
   /* pause heavy animations when tab hidden */
   document.addEventListener('visibilitychange', () => {
     if (document.hidden) {
-      stopAnim(); stopScene();
+      stopScene();
       if (ddrAnim) cancelAnimationFrame(ddrAnim), ddrAnim = null;
     } else {
       if (!ddrAnim) ddrLoop();
       renderScene();
-      const active = $('.lab-btn.active'); if (active) applyFault(active.dataset.fault);
     }
   });
 })();

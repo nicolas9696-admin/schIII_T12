@@ -11,7 +11,8 @@
   --ink-faint:#6b7890;
   --line:#26324a;
 
-  --phase:#a9793f;      /* brun = phase (officiel : brun/noir/gris) */
+  --phase:#a9793f;      /* brun = phase (code moderne : brun/noir/gris) */
+  --phase-old:#4f86e0;  /* phase des vieilles installations (schéma III) : rouge ou bleu */
   --neutral:#3f8fe0;    /* bleu = neutre */
   --neutral-old:#e6c23a;/* jaune = neutre ancien (schéma III) */
   --pe:#9ac52e;         /* vert-jaune = conducteur de protection */
@@ -143,6 +144,7 @@ figcaption{font-size:.9rem;color:var(--ink-soft);margin-bottom:14px;text-align:c
 .wire.neutral{stroke:var(--neutral)}
 .wire.pe{stroke:var(--pe-green)}
 .wire.pe-stripe{stroke:var(--pe-yellow);stroke-width:3.6;stroke-dasharray:7 7;stroke-linecap:butt}
+.wire.neutral.old{stroke:var(--neutral-old)}   /* neutre jaune des vieilles installations (schéma III) */
 .wire.bridge{stroke:var(--bridge);stroke-dasharray:6 5}
 .wire.sw{transition:transform .3s}
 .wl{fill:var(--ink-faint);font-size:14px;font-weight:700}
@@ -212,7 +214,9 @@ figcaption{font-size:.9rem;color:var(--ink-soft);margin-bottom:14px;text-align:c
 .scene-btn.active[data-install="modern"]{background:var(--accent);border-color:var(--accent);color:#04223f}
 .scene-btn.active[data-install="sch3"]{background:var(--danger);border-color:var(--danger);color:#fff}
 .scene-btn2.active{background:var(--surface-2);border-color:var(--accent);color:#fff}
-.scene-btn2.active[data-state="fault"]{background:var(--warn);border-color:var(--warn);color:#20160a}
+.scene-btn2.active:not([data-case="ok"]){background:var(--warn);border-color:var(--warn);color:#20160a}
+.swap-glyph{fill:var(--danger);font-size:22px;font-weight:800}
+#pont{transition:opacity .25s}
 .scene-wrap{max-width:900px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
 #sceneSvg{width:100%;height:auto;background:var(--bg);border-radius:var(--radius-s);border:1px solid var(--line)}
 .scene-lbl{fill:var(--ink-faint);font-size:12px;font-weight:600}
@@ -243,12 +247,13 @@ figcaption{font-size:.9rem;color:var(--ink-soft);margin-bottom:14px;text-align:c
 #personLbl{font-size:13px;font-weight:800}
 #personLbl.p-safe{fill:var(--ok)}
 #personLbl.p-live{fill:var(--danger)}
+/* en schéma III, la phase suit l'ancien code (bleu) et non le brun moderne */
+#sceneWrap[data-install="sch3"] .wire.phase{stroke:var(--phase-old)}
 /* visibilité par axe */
 #sceneWrap[data-install="sch3"] .if-modern{display:none}
 #sceneWrap[data-install="modern"] .if-sch3{display:none}
-#sceneWrap[data-state="ok"] .if-fault{display:none}
 .scene-legend .lg{fill:var(--ink-faint);font-size:11px;font-weight:600}
-.scene-legend .lg.warn{fill:var(--warn)}
+.scene-legend .lg.warn,.scene-legend tspan.warn{fill:var(--warn);font-weight:700}
 .scene-caption{font-size:1rem;line-height:1.55;padding:14px 18px;border-radius:var(--radius-s);border-left:4px solid}
 #sceneWrap[data-tone="ok"] .scene-caption{background:rgba(79,157,255,.08);border-color:var(--accent);color:#d6e6fb}
 #sceneWrap[data-tone="warn"] .scene-caption{background:rgba(240,160,32,.09);border-color:var(--warn);color:#ffe6c2}

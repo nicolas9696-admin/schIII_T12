@@ -20,9 +20,9 @@
   </a>
   <nav class="nav-links" aria-label="Navigation principale">
     <a href="#cest-quoi">C'est quoi&nbsp;?</a>
-    <a href="#prises">Les prises</a>
     <a href="#danger">Le danger</a>
     <a href="#ddr">Le DDR</a>
+    <a href="#prises">Les prises</a>
     <a href="#loi">La loi</a>
     <a href="#faire">Que faire&nbsp;?</a>
   </nav>
@@ -102,15 +102,12 @@
       </div>
     </div>
     <div class="scene-grp">
-      <span class="scene-grp-lbl">État</span>
-      <div class="scene-toggle" role="tablist" aria-label="État de l'installation">
-        <button class="scene-btn2 active" data-state="ok" role="tab">Sans défaut</button>
-        <button class="scene-btn2" data-state="fault" role="tab">Avec défaut</button>
-      </div>
+      <span class="scene-grp-lbl">Situation</span>
+      <div class="scene-toggle" id="scenBtns" role="tablist" aria-label="Situation"></div>
     </div>
   </div>
 
-  <div class="scene-wrap card" id="sceneWrap" data-install="modern" data-state="ok" data-tone="ok">
+  <div class="scene-wrap card" id="sceneWrap" data-install="modern" data-tone="ok">
     <svg viewBox="0 0 520 350" id="sceneSvg" role="img" aria-label="Scène pédagogique : un lave-linge, une personne et le sol">
       <!-- sol -->
       <line x1="20" y1="306" x2="500" y2="306" class="earth"/>
@@ -132,8 +129,8 @@
       <circle cx="271" cy="236" r="40" class="porthole-out"/>
       <circle cx="271" cy="236" r="29" class="porthole-in"/>
 
-      <!-- défaut interne : seulement "avec défaut" -->
-      <g class="if-fault">
+      <!-- overlays de défaut (affichés par le script selon la situation) -->
+      <g id="gBolt" style="display:none">
         <path class="fault-bolt" d="M238 176 l11 -15 -6 0 11 -17"/>
         <text x="214" y="202" class="fault-lbl">défaut</text>
       </g>
@@ -152,27 +149,40 @@
         </g>
       </g>
 
-      <!-- ===== SCHÉMA III : le "fil de terre" (vert-jaune) est ponté sur le neutre ===== -->
+      <!-- ===== SCHÉMA III : neutre JAUNE, et le "fil de terre" (vert-jaune) ponté dessus ===== -->
       <g class="if-sch3">
-        <path class="wire neutral"   d="M108 86 H272 V152" fill="none"/>
-        <path class="wire pe"        d="M306 176 V124 H272" fill="none"/>
-        <path class="wire pe-stripe" d="M306 176 V124 H272" fill="none"/>
+        <path class="wire neutral old" d="M108 86 H272 V152" fill="none"/>
+        <g id="pont">
+          <path class="wire pe"        d="M306 176 V124 H272" fill="none"/>
+          <path class="wire pe-stripe" d="M306 176 V124 H272" fill="none"/>
+        </g>
         <circle cx="306" cy="176" r="3.5" class="node"/>
         <circle cx="272" cy="124" r="4.5" class="node-hot"/>
         <text x="150" y="334" text-anchor="middle" class="bad-lbl">aucune vraie terre</text>
         <g transform="translate(340,32)" class="scene-legend">
           <line x1="0" y1="0"  x2="20" y2="0"  class="wire phase"/><text x="26" y="4"  class="lg">courant</text>
-          <line x1="0" y1="16" x2="20" y2="16" class="wire neutral"/><text x="26" y="20" class="lg">neutre (retour)</text>
+          <line x1="0" y1="16" x2="20" y2="16" class="wire neutral old"/><text x="26" y="20" class="lg">neutre <tspan class="warn">jaune</tspan> (retour)</text>
           <line x1="0" y1="32" x2="20" y2="32" class="wire pe"/><line x1="0" y1="32" x2="20" y2="32" class="wire pe-stripe"/><text x="26" y="36" class="lg">« terre » du boîtier…</text>
           <text x="26" y="50" class="lg warn">…mais reliée au neutre&nbsp;!</text>
         </g>
       </g>
 
-      <!-- neutre coupé : seulement schéma III + avec défaut -->
-      <g class="if-sch3 if-fault">
+      <!-- défaut ① : neutre coupé -->
+      <g id="gCut" style="display:none">
         <line x1="150" y1="78" x2="166" y2="94" class="break"/>
         <line x1="166" y1="78" x2="150" y2="94" class="break"/>
         <text x="158" y="70" text-anchor="middle" class="bad-lbl">neutre coupé</text>
+      </g>
+      <!-- défaut ② : phase et neutre inversés -->
+      <g id="gSwap" style="display:none">
+        <text x="184" y="52" text-anchor="middle" class="bad-lbl">phase et neutre inversés</text>
+        <text x="184" y="84" text-anchor="middle" class="swap-glyph">⇄</text>
+      </g>
+      <!-- défaut ③ : pont oublié (le pont est estompé par le script) -->
+      <g id="gNobridge" style="display:none">
+        <line x1="298" y1="142" x2="314" y2="158" class="break"/>
+        <line x1="314" y1="142" x2="298" y2="158" class="break"/>
+        <text x="352" y="152" class="bad-lbl">pont oublié</text>
       </g>
 
       <!-- personne -->
@@ -231,160 +241,25 @@
     L'objectif légal est d'amener toute installation au <b>système TN</b>.</p>
 </section>
 
-<!-- ====================== LES PRISES / TIMELINE ====================== -->
-<section class="sec" id="prises">
-  <div class="sec-head">
-    <span class="tag">Les prises suisses</span>
-    <h2>De la T1 à la T13&nbsp;: 70 ans de sécurité qui progresse</h2>
-    <p class="sub">Le type de prise raconte l'âge de l'installation. La <b>T12</b> — sans collerette de
-      protection — est le symbole des installations à assainir.</p>
-  </div>
-
-  <div class="timeline" id="timeline">
-    <div class="tl-track"></div>
-    <button class="tl-item" data-plug="t1" style="--y:'1955'">
-      <span class="tl-year">1955</span><span class="tl-plug plug-t1"></span><span class="tl-name">Type&nbsp;1 / T1</span>
-    </button>
-    <button class="tl-item" data-plug="t12" style="--y:'1960'">
-      <span class="tl-year">≈1960</span><span class="tl-plug plug-t12"></span><span class="tl-name">Type&nbsp;12</span>
-    </button>
-    <button class="tl-item" data-plug="sep" style="--y:'1974'">
-      <span class="tl-year">1974</span><span class="tl-plug plug-flag">⚑</span><span class="tl-name">PE posé séparément</span>
-    </button>
-    <button class="tl-item active" data-plug="t13" style="--y:'2000'">
-      <span class="tl-year">2000+</span><span class="tl-plug plug-t13"></span><span class="tl-name">Type&nbsp;13</span>
-    </button>
-    <button class="tl-item" data-plug="rcd" style="--y:'2010'">
-      <span class="tl-year">2010</span><span class="tl-plug plug-rcd">30<tspan>mA</tspan></span><span class="tl-name">DDR 30&nbsp;mA généralisé</span>
-    </button>
-  </div>
-
-  <div class="plug-detail card" id="plugDetail">
-    <div class="plug-visual">
-      <svg viewBox="0 0 200 200" class="plug-svg" id="plugSvg" role="img" aria-label="Illustration de la prise sélectionnée"></svg>
-    </div>
-    <div class="plug-text">
-      <h3 id="plugTitle">Prise type 13</h3>
-      <p id="plugDesc"></p>
-      <div class="plug-flags" id="plugFlags"></div>
-    </div>
-  </div>
-
-  <div class="callout info wide">
-    <b>Ce qui a changé le 1ᵉʳ janvier 2017&nbsp;:</b> depuis le 31.12.2016, les prises <b>T12</b> (sans
-    collerette de protection) ne peuvent plus être mises sur le marché. Il est interdit de les
-    <b>réinstaller, remplacer ou déplacer</b>. Les nouvelles installations utilisent la <b>T13</b>, qui
-    protège du contact avec les doigts au branchement et au débranchement. Seul le remplacement de la
-    plaque de façade pour <b>réparation</b> reste permis — jamais pour raison esthétique.
-  </div>
-</section>
-
 <!-- ====================== LE DANGER (interactif) ====================== -->
-<section class="sec alt" id="danger">
+<section class="sec" id="danger">
   <div class="sec-head">
-    <span class="tag">Le cœur du problème</span>
-    <h2>Une seule erreur suffit à électriser un boîtier</h2>
-    <p class="sub">Choisissez un défaut. Le schéma montre où passe le courant et pourquoi le boîtier
-      métallique devient mortel. Ces trois situations sont réelles et documentées.</p>
+    <span class="tag">Ce n'est pas tout</span>
+    <h2>Le schéma III pose encore d'autres problèmes</h2>
+    <p class="sub">Au‑delà du risque d'électrocution que vous venez de voir, voici quatre raisons
+      supplémentaires d'assainir.</p>
   </div>
 
-  <div class="danger-lab">
-    <div class="lab-controls" role="tablist" aria-label="Scénarios de défaut">
-      <button class="lab-btn active" data-fault="normal" role="tab">✔ Situation normale</button>
-      <button class="lab-btn" data-fault="cut" role="tab">① Neutre coupé</button>
-      <button class="lab-btn" data-fault="swap" role="tab">② Phase &amp; neutre inversés</button>
-      <button class="lab-btn" data-fault="nobridge" role="tab">③ Pont N→PE oublié</button>
-    </div>
-
-    <div class="lab-stage card">
-      <svg viewBox="0 0 640 380" class="lab-svg" id="labSvg" role="img" aria-label="Schéma interactif d'un défaut sur une installation en schéma III">
-        <!-- source -->
-        <g class="lab-source">
-          <rect x="20" y="150" width="70" height="90" rx="8" class="box"/>
-          <text x="55" y="200" text-anchor="middle" class="box-l">Réseau</text>
-        </g>
-        <!-- main wires -->
-        <line class="wire phase"   id="wPhase"   x1="90" y1="175" x2="470" y2="175"/>
-        <line class="wire neutral" id="wNeutral" x1="90" y1="215" x2="470" y2="215"/>
-        <text class="wl" x="105" y="167">L</text>
-        <text class="wl" x="105" y="240">N</text>
-
-        <!-- break marker on neutral -->
-        <g id="breakMark" opacity="0">
-          <line x1="300" y1="205" x2="316" y2="225" class="break"/>
-          <line x1="316" y1="205" x2="300" y2="225" class="break"/>
-        </g>
-
-        <!-- socket + appliance -->
-        <g transform="translate(470,120)">
-          <rect x="0" y="0" width="150" height="180" rx="12" class="enclosure lab-enclosure" id="labEnclosure"/>
-          <text x="75" y="30" text-anchor="middle" class="apl">Appareil</text>
-          <!-- internal wiring -->
-          <line class="wire phase"   x1="0"  y1="55"  x2="45" y2="55"/>
-          <line class="wire neutral" id="wNin" x1="0"  y1="95"  x2="45" y2="95"/>
-          <!-- switch -->
-          <g id="switchG">
-            <circle cx="45" cy="55" r="4" class="node"/>
-            <line id="switchArm" x1="45" y1="55" x2="80" y2="45" class="wire phase sw"/>
-            <circle cx="80" cy="55" r="4" class="node"/>
-            <line class="wire phase" x1="80" y1="55" x2="110" y2="55"/>
-          </g>
-          <!-- motor/load -->
-          <circle cx="110" cy="75" r="20" class="load" id="loadCircle"/>
-          <text x="110" y="80" text-anchor="middle" class="load-l">M</text>
-          <line class="wire neutral" x1="110" y1="95" x2="45" y2="95"/>
-          <!-- bridge N -> enclosure -->
-          <g id="bridgeG">
-            <line class="wire bridge" id="bridgeWire" x1="45" y1="95" x2="30" y2="130"/>
-            <line class="wire bridge" x1="30" y1="130" x2="75" y2="130"/>
-          </g>
-          <!-- enclosure contact point -->
-          <circle cx="75" cy="130" r="4" class="node"/>
-        </g>
-
-        <!-- person -->
-        <g id="personG" transform="translate(560,300)" opacity="0.55">
-          <circle cx="0" cy="-40" r="12" class="person"/>
-          <line x1="0" y1="-28" x2="0" y2="0" class="person"/>
-          <line x1="0" y1="-20" x2="-16" y2="-30" class="person" id="armToBox"/>
-          <line x1="0" y1="-20" x2="14" y2="-8" class="person"/>
-          <line x1="0" y1="0" x2="-12" y2="20" class="person"/>
-          <line x1="0" y1="0" x2="12" y2="20" class="person"/>
-          <line x1="-12" y1="20" x2="-12" y2="40" class="person ground-line"/>
-          <line x1="12" y1="20" x2="12" y2="40" class="person ground-line"/>
-        </g>
-        <line x1="470" y1="360" x2="640" y2="360" class="earth"/>
-        <path d="M540 360 v-6 M552 360 v-10 M564 360 v-6" class="earth-hatch"/>
-
-        <!-- danger glow overlay -->
-        <rect x="470" y="120" width="150" height="180" rx="12" class="glow" id="dangerGlow" opacity="0"/>
-
-        <!-- animated current -->
-        <circle class="lab-pulse" id="labPulse" r="5" opacity="0"/>
-        <circle class="lab-pulse danger" id="labPulse2" r="5" opacity="0"/>
-      </svg>
-
-      <div class="lab-readout">
-        <div class="verdict" id="verdict"><span class="v-icon">✔</span><span class="v-text">Tout va bien</span></div>
-        <p class="verdict-desc" id="verdictDesc">Le courant part de la phase, traverse l'appareil et
-          revient par le neutre. Le boîtier reste à 0 volt&nbsp;: aucun danger.</p>
-      </div>
-    </div>
-  </div>
-
-  <div class="danger-more">
-    <h3>Et ce n'est pas tout&nbsp;: 5 autres raisons de s'inquiéter</h3>
-    <div class="grid-4">
+  <div class="grid-4">
       <div class="mini-card"><span class="mi">🔌</span><b>Le DDR ne peut pas protéger</b><p>Impossible d'installer une vraie protection différentielle en amont&nbsp;; on ne peut protéger que prise par prise, à grands frais.</p></div>
       <div class="mini-card"><span class="mi">📏</span><b>Contrôle impossible</b><p>Les mesures d'isolement qui vérifient l'état de l'installation ne sont réalisables qu'au prix d'efforts démesurés — ou pas du tout.</p></div>
       <div class="mini-card"><span class="mi">📡</span><b>Perturbations (CEM)</b><p>Incompatible avec le photovoltaïque, les batteries et les bornes de recharge modernes&nbsp;: parasites garantis.</p></div>
       <div class="mini-card"><span class="mi">🔥</span><b>Risque d'incendie</b><p>Beaucoup de ces câbles ont une gaine en coton&nbsp;; après 50 ans, l'isolation vieillit et le code couleur devient illisible.</p></div>
-    </div>
   </div>
 </section>
 
 <!-- ====================== LE DDR ====================== -->
-<section class="sec" id="ddr">
+<section class="sec alt" id="ddr">
   <div class="sec-head">
     <span class="tag">Le gardien moderne</span>
     <h2>Le DDR&nbsp;: l'interrupteur qui vous sauve en 3 centièmes de seconde</h2>
@@ -454,6 +329,54 @@
       </svg>
       <button class="btn btn-small" id="ddrLeakBtn">⚡ Simuler une fuite</button>
     </figure>
+  </div>
+</section>
+
+<!-- ====================== LES PRISES / TIMELINE ====================== -->
+<section class="sec" id="prises">
+  <div class="sec-head">
+    <span class="tag">Les prises suisses</span>
+    <h2>Comment le repérer chez vous&nbsp;: regardez vos prises</h2>
+    <p class="sub">Le type de prise trahit l'âge de l'installation. La <b>T12</b> — sans collerette de
+      protection — est le signe le plus visible d'une installation à assainir.</p>
+  </div>
+
+  <div class="timeline" id="timeline">
+    <div class="tl-track"></div>
+    <button class="tl-item" data-plug="t1" style="--y:'1955'">
+      <span class="tl-year">1955</span><span class="tl-plug plug-t1"></span><span class="tl-name">Type&nbsp;1 / T1</span>
+    </button>
+    <button class="tl-item" data-plug="t12" style="--y:'1960'">
+      <span class="tl-year">≈1960</span><span class="tl-plug plug-t12"></span><span class="tl-name">Type&nbsp;12</span>
+    </button>
+    <button class="tl-item" data-plug="sep" style="--y:'1974'">
+      <span class="tl-year">1974</span><span class="tl-plug plug-flag">⚑</span><span class="tl-name">PE posé séparément</span>
+    </button>
+    <button class="tl-item active" data-plug="t13" style="--y:'2000'">
+      <span class="tl-year">2000+</span><span class="tl-plug plug-t13"></span><span class="tl-name">Type&nbsp;13</span>
+    </button>
+    <button class="tl-item" data-plug="rcd" style="--y:'2010'">
+      <span class="tl-year">2010</span><span class="tl-plug plug-rcd">30<tspan>mA</tspan></span><span class="tl-name">DDR 30&nbsp;mA généralisé</span>
+    </button>
+  </div>
+
+  <div class="plug-detail card" id="plugDetail">
+    <div class="plug-visual">
+      <svg viewBox="0 0 200 200" class="plug-svg" id="plugSvg" role="img" aria-label="Illustration de la prise sélectionnée"></svg>
+    </div>
+    <div class="plug-text">
+      <h3 id="plugTitle">Prise type 13</h3>
+      <p id="plugDesc"></p>
+      <div class="plug-flags" id="plugFlags"></div>
+    </div>
+  </div>
+
+  <div class="callout info wide">
+    <b>Ce qui a changé le 1ᵉʳ janvier 2017&nbsp;:</b> depuis le 31.12.2016, les prises <b>T12</b> (sans
+    collerette de protection) ne peuvent plus être mises sur le marché. Il est interdit de les
+    <b>réinstaller, remplacer ou déplacer</b>. Les nouvelles installations utilisent la <b>T13</b>, qui
+    protège du contact avec les doigts au branchement et au débranchement. Seul le remplacement de la
+    plaque de façade pour <b>réparation</b> reste permis — jamais pour raison esthétique.
   </div>
 </section>
 
