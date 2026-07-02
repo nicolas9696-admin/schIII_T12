@@ -213,39 +213,6 @@ figcaption{font-size:.9rem;color:var(--ink-soft);margin-bottom:14px;text-align:c
 .pflag.good{background:rgba(57,185,114,.1);color:var(--ok);border-color:rgba(57,185,114,.3)}
 .pflag.neutral{background:var(--surface-2);color:var(--ink-soft)}
 
-/* ---------- DÉMO COLLERETTE (coupe animée) ---------- */
-.collar-demo{margin:38px 0 8px}
-.collar-demo h3{color:#fff;text-align:center;margin-bottom:6px}
-.sub-mini{color:var(--ink-soft);text-align:center;max-width:62ch;margin:0 auto 24px}
-.collar-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
-.collar-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:18px;margin:0}
-.collar-card.danger{border-color:rgba(255,77,79,.35)}
-.collar-card.safe{border-color:rgba(57,185,114,.35)}
-.collar-tag{font-weight:700;font-size:.85rem;margin-bottom:10px;text-align:center;color:var(--ink-soft)}
-.collar-card.danger .collar-tag{color:var(--danger-soft)}
-.collar-card.safe .collar-tag{color:var(--ok)}
-.xsvg{width:100%;height:auto;background:var(--bg);border-radius:var(--radius-s);border:1px solid var(--line)}
-.collar-card figcaption{margin-top:12px;text-align:center;font-size:.92rem}
-.x-ver.bad{color:var(--danger-soft);font-weight:600}
-.x-ver.good{color:var(--ok);font-weight:600}
-.xlbl{fill:var(--warn);font-size:11px;font-weight:600;font-family:var(--font)}
-.xcol{fill:#aeb8cc;font-size:11px;font-weight:600;font-family:var(--font)}
-.xstop{fill:var(--ok);font-size:13px;font-weight:700;font-family:var(--font)}
-.xplug{animation:xInsert 4.4s ease-in-out infinite}
-@keyframes xInsert{0%,12%{transform:translateX(-54px)}46%,76%{transform:translateX(0)}100%{transform:translateX(-54px)}}
-.xfinger{animation:xTouch 4.4s ease-in-out infinite}
-@keyframes xTouch{0%,42%{transform:translateY(-50px)}58%,72%{transform:translateY(var(--reach,0px))}88%,100%{transform:translateY(-50px)}}
-.x-live{animation:xLive 1.1s ease-in-out infinite}
-@keyframes xLive{0%,100%{opacity:.45}50%{opacity:1}}
-.xspark,.xshock{opacity:0;animation:xSpark 4.4s ease-in-out infinite}
-@keyframes xSpark{0%,56%{opacity:0}60%,70%{opacity:1}74%,100%{opacity:0}}
-@media(max-width:640px){.collar-grid{grid-template-columns:1fr}}
-@media(prefers-reduced-motion:reduce){
-  .xplug{animation:none}.x-live{animation:none;opacity:.9}
-  .xfinger{animation:none;transform:translateY(var(--reach,0px))}
-  .xspark,.xshock{animation:none;opacity:1}
-}
-
 /* ---------- DANGER LAB ---------- */
 .danger-lab{margin-bottom:60px}
 .lab-controls{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px;justify-content:center}

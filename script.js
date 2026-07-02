@@ -81,11 +81,13 @@
         `<circle cx="82" cy="100" r="10" fill="${hole}"/><circle cx="118" cy="100" r="10" fill="${hole}"/>`);
     }
     if (kind === 't13') {
-      // collerette hexagonale discrète, en léger renfoncement (comme la vraie T13)
+      // collerette hexagonale marquée, en renfoncement (comme la vraie T13)
       const hex = '74,72 126,72 150,105 126,138 74,138 50,105';
+      const hexIn = '78,78 122,78 143,105 122,132 78,132 57,105';
       const collar = `
-        <polygon points="${hex}" fill="#f1f4f7" stroke="#c6cdd6" stroke-width="1.8"/>
-        <polygon points="${hex}" fill="none" stroke="#ffffff" stroke-width="1.2" opacity=".9"/>`;
+        <polygon points="${hex}" fill="#dbe1e9" stroke="#9aa4b0" stroke-width="2.6"/>
+        <polygon points="${hex}" fill="none" stroke="#ffffff" stroke-width="1.4" opacity=".95"/>
+        <polygon points="${hexIn}" fill="#eef2f6" stroke="#b7bfca" stroke-width="1.6"/>`;
       return wrap(plate + collar + screw + holes3);
     }
     // T12 : face plate, sans collerette
