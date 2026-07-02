@@ -216,8 +216,8 @@
   const LOOP_N    = [[108,62],[244,62],[244,152],[272,152],[272,86],[108,86]];
   const PATH_PE   = [[108,62],[244,62],[244,152],[238,176],[214,250],[212,286],[150,286],[150,304]];
   const PATH_BODY = [[108,62],[244,62],[244,152],[238,176],[300,205],[356,228],[430,212],[430,252],[420,304]];
-  // neutre coupé : phase (bleu) -> remonte le neutre jaune -> jonction -> prend le pont vert-jaune -> à travers la machine -> l'homme -> le sol
-  const PATH_CUT  = [[108,62],[244,62],[244,152],[272,152],[272,124],[306,124],[306,176],[356,228],[430,212],[430,252],[420,304]];
+  // neutre coupé : phase (bleu) descend DANS la machine -> remonte le neutre jaune jusqu'à la jonction -> prend le pont vert-jaune -> redescend à travers la machine -> la main -> la personne -> le sol
+  const PATH_CUT  = [[108,62],[244,62],[244,152],[244,205],[272,205],[272,124],[306,124],[306,176],[356,228],[430,212],[430,252],[420,304]];
   const PATH_SWAP = [[108,86],[272,86],[272,124],[306,124],[306,176],[356,228],[430,212],[430,252],[420,304]];
   const SC = {
     modern_ok: {
@@ -239,10 +239,11 @@
            "casse, il reste à 0&nbsp;V. C'est <b>l'illusion de sécurité</b> du schéma III."
     },
     cut: {
-      install: 'sch3', tone: 'danger', col: 'var(--danger)', path: PATH_CUT, spd: 0.009,
-      fuse: ['resté actif ✗', 'f-bad'], pers: ['⚡ électrisé', 'p-live'], show: ['gBolt', 'gCut'],
-      cap: "<b>Neutre coupé.</b> Le seul fil qui servait de « terre » est interrompu. Au moindre défaut, " +
-           "plus d'évacuation&nbsp;: le courant traverse le boîtier, puis <b>vous</b>. Le fusible ne saute pas."
+      install: 'sch3', tone: 'danger', col: 'var(--danger)', path: PATH_CUT, spd: 0.008,
+      fuse: ['resté actif ✗', 'f-bad'], pers: ['⚡ électrisé', 'p-live'], show: ['gCut'],
+      cap: "<b>Neutre coupé.</b> Le neutre — qui sert aussi de « terre » — est interrompu. Le courant de " +
+           "l'appareil ne peut plus revenir par le neutre&nbsp;: il remonte par le pont jusqu'au boîtier, " +
+           "qui passe sous tension. En le touchant, <b>vous</b> devenez le chemin vers le sol — et le fusible ne saute pas."
     },
     swap: {
       install: 'sch3', tone: 'danger', col: 'var(--danger)', path: PATH_SWAP, spd: 0.011,
