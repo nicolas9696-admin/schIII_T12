@@ -72,9 +72,9 @@
       <circle cx="100" cy="80" r="8" fill="#c2c8cf" stroke="#98a0aa" stroke-width="1.5"/>
       <line x1="93.5" y1="80" x2="106.5" y2="80" stroke="#7c838c" stroke-width="1.8"/>`;
     const holes3 = `
-      <circle cx="80" cy="104" r="9" fill="${hole}"/>
-      <circle cx="120" cy="104" r="9" fill="${hole}"/>
-      <circle cx="100" cy="133" r="9" fill="${hole}"/>`;
+      <circle cx="80" cy="104" r="6" fill="${hole}"/>
+      <circle cx="120" cy="104" r="6" fill="${hole}"/>
+      <circle cx="100" cy="133" r="6" fill="${hole}"/>`;
 
     if (kind === 't1') {
       return wrap(plate +
