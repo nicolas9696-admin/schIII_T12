@@ -284,17 +284,17 @@
   let ddrAnim = null, dt = 0, leaking = false;
   const ddrLoop = () => {
     dt += 0.01; if (dt > 1) dt = 0;
-    // phase dot: left->right on top wire (y60), then down into appliance
-    const pa = lerpPath([[90,60],[360,60],[360,120]], dt);
+    // phase dot: entrée -> DDR -> descente dans l'appareil
+    const pa = lerpPath([[40,66],[345,66],[345,150]], dt);
     ddr.pa.setAttribute('cx', pa[0]); ddr.pa.setAttribute('cy', pa[1]);
     ddr.pa.setAttribute('fill', 'var(--phase)');
     if (!leaking) {
-      const pb = lerpPath([[360,120],[360,90],[90,90]], dt);
+      const pb = lerpPath([[315,150],[315,94],[40,94]], dt);
       ddr.pb.setAttribute('cx', pb[0]); ddr.pb.setAttribute('cy', pb[1]);
       ddr.pb.setAttribute('fill', 'var(--neutral)');
     } else {
-      // leak path: from appliance to person to earth
-      const pb = lerpPath([[345,200],[300,250],[250,282]], dt);
+      // fuite : de l'appareil vers la personne
+      const pb = lerpPath([[315,216],[290,244],[258,254]], dt);
       ddr.pb.setAttribute('cx', pb[0]); ddr.pb.setAttribute('cy', pb[1]);
       ddr.pb.setAttribute('fill', 'var(--danger)');
     }
