@@ -69,6 +69,9 @@
     const hole = '#20262f';
     let collar = '', holes, screw;
 
+    const hex = '58,108 80,74 120,74 142,108 120,142 80,142';
+    let fiche = '', overlay = '';
+
     if (kind === 't1') {
       // ancienne 2 pôles
       holes = `<circle cx="84" cy="100" r="10" fill="${hole}"/><circle cx="116" cy="100" r="10" fill="${hole}"/>`;
@@ -84,14 +87,30 @@
         <line x1="94" y1="86" x2="106" y2="86" stroke="#868c95" stroke-width="1.6"/>`;
       if (kind === 't13') {
         // collerette hexagonale en relief (protection au contact)
-        const hex = '58,108 80,74 120,74 142,108 120,142 80,142';
         collar = `
           <polygon points="${hex}" fill="#ffffff" stroke="#d7dce3" stroke-width="2"/>
           <polygon points="${hex}" fill="none" stroke="#eef1f5" stroke-width="4" opacity=".7"/>`;
+        overlay = `<polygon class="shield" points="${hex}"/>
+          <text class="cap-ok" x="100" y="182" text-anchor="middle">contact protégé ✔</text>`;
+      } else {
+        // T12 : pas de collerette → broches accessibles
+        overlay = `<g class="expose">
+            <path d="M62 92 a12 12 0 0 0 0 22" fill="none" stroke="#ff4d4f" stroke-width="3"/>
+            <path d="M138 92 a12 12 0 0 1 0 22" fill="none" stroke="#ff4d4f" stroke-width="3"/>
+          </g>
+          <text class="cap-bad" x="100" y="182" text-anchor="middle">broches accessibles ⚠</text>`;
       }
+      // fiche animée (broches métalliques + corps + cordon)
+      fiche = `<g class="fiche">
+          <rect x="88" y="22" width="24" height="14" rx="4" fill="#454f66"/>
+          <rect x="58" y="36" width="84" height="40" rx="13" fill="#2b3242" stroke="#4a5670" stroke-width="2"/>
+          <rect x="79" y="74" width="6" height="26" rx="3" fill="#cfd3da"/>
+          <rect x="115" y="74" width="6" height="26" rx="3" fill="#cfd3da"/>
+          <rect x="97" y="74" width="6" height="40" rx="3" fill="#cfd3da"/>
+        </g>`;
     }
     return `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-      ${plate}${collar}${holes}${screw}</svg>`;
+      ${plate}${collar}${holes}${screw}${overlay}${fiche}</svg>`;
   }
   function flagSVG() {
     return `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
@@ -106,8 +125,8 @@
       <rect x="52" y="46" width="96" height="108" rx="12" fill="#1c2740" stroke="#4f9dff" stroke-width="3"/>
       <rect x="86" y="60" width="28" height="18" rx="4" fill="#f0a020"/>
       <text x="100" y="74" text-anchor="middle" fill="#20160a" font-size="12" font-weight="700" font-family="Inter">T</text>
-      <line x1="72" y1="96" x2="128" y2="96" stroke="#c9603f" stroke-width="4" stroke-linecap="round"/>
-      <line x1="72" y1="116" x2="128" y2="116" stroke="#3f7fd6" stroke-width="4" stroke-linecap="round"/>
+      <line x1="72" y1="96" x2="128" y2="96" stroke="#a9793f" stroke-width="4" stroke-linecap="round"/>
+      <line x1="72" y1="116" x2="128" y2="116" stroke="#3f8fe0" stroke-width="4" stroke-linecap="round"/>
       <text x="100" y="144" text-anchor="middle" fill="#39b972" font-size="15" font-weight="700" font-family="Inter">30 mA</text>
     </svg>`;
   }

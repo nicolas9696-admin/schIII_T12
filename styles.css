@@ -15,6 +15,8 @@
   --neutral:#3f8fe0;    /* bleu = neutre */
   --neutral-old:#e6c23a;/* jaune = neutre ancien (schéma III) */
   --pe:#9ac52e;         /* vert-jaune = conducteur de protection */
+  --pe-green:#3fa64a;   /* base verte du conducteur de protection */
+  --pe-yellow:#e6c23a;  /* rayures jaunes du conducteur de protection */
   --bridge:#e6c23a;     /* jaune = ancien neutre servant de "terre" */
   --danger:#ff4d4f;
   --danger-soft:#ff7875;
@@ -139,7 +141,8 @@ figcaption{font-size:.9rem;color:var(--ink-soft);margin-bottom:14px;text-align:c
 .wire{stroke-width:3.5;fill:none;stroke-linecap:round}
 .wire.phase{stroke:var(--phase)}
 .wire.neutral{stroke:var(--neutral)}
-.wire.pe{stroke:var(--pe)}
+.wire.pe{stroke:var(--pe-green)}
+.wire.pe-stripe{stroke:var(--pe-yellow);stroke-width:3.6;stroke-dasharray:7 7;stroke-linecap:butt}
 .wire.bridge{stroke:var(--bridge);stroke-dasharray:6 5}
 .wire.sw{transition:transform .3s}
 .wl{fill:var(--ink-faint);font-size:14px;font-weight:700}
@@ -201,6 +204,23 @@ figcaption{font-size:.9rem;color:var(--ink-soft);margin-bottom:14px;text-align:c
 .plug-detail{display:grid;grid-template-columns:200px 1fr;gap:28px;align-items:center;max-width:820px;margin:0 auto}
 .plug-visual{display:flex;justify-content:center}
 .plug-svg{width:170px;height:170px}
+/* fiche qui s'insère + effet collerette */
+.plug-svg .fiche{animation:ficheIn 3.4s ease-in-out infinite}
+@keyframes ficheIn{
+  0%,10%{transform:translateY(-54px)}
+  42%,74%{transform:translateY(0)}
+  100%{transform:translateY(-54px)}
+}
+.plug-svg .shield{fill:none;stroke:var(--pe);stroke-width:3.5;opacity:0;animation:shieldPulse 3.4s ease-in-out infinite}
+@keyframes shieldPulse{0%,32%{opacity:0}46%,72%{opacity:.95}84%,100%{opacity:0}}
+.plug-svg .expose{opacity:0;animation:exposePulse 3.4s ease-in-out infinite}
+@keyframes exposePulse{0%,16%{opacity:0}24%,38%{opacity:.95}50%,100%{opacity:0}}
+.cap-ok{fill:var(--pe);font-size:12px;font-weight:700;font-family:var(--font);opacity:0;animation:shieldPulse 3.4s ease-in-out infinite}
+.cap-bad{fill:var(--danger-soft);font-size:12px;font-weight:700;font-family:var(--font);opacity:0;animation:exposePulse 3.4s ease-in-out infinite}
+@media(prefers-reduced-motion:reduce){
+  .plug-svg .fiche{animation:none;transform:translateY(0)}
+  .plug-svg .shield,.plug-svg .expose,.cap-ok,.cap-bad{animation:none;opacity:.9}
+}
 .plug-text h3{color:#fff}
 .plug-text p{color:var(--ink-soft)}
 .plug-flags{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
