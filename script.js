@@ -81,14 +81,21 @@
         `<circle cx="82" cy="100" r="10" fill="${hole}"/><circle cx="118" cy="100" r="10" fill="${hole}"/>`);
     }
     if (kind === 't13') {
-      // collerette hexagonale marquée, en renfoncement (comme la vraie T13)
-      const hex = '74,72 126,72 150,105 126,138 74,138 50,105';
-      const hexIn = '78,78 122,78 143,105 122,132 78,132 57,105';
+      const screwT13 = `
+        <circle cx="99" cy="88" r="7.5" fill="#c2c8cf" stroke="#98a0aa" stroke-width="1.5"/>
+        <line x1="93" y1="88" x2="105" y2="88" stroke="#7c838c" stroke-width="1.6"/>`;
+      const holesT13 = `
+        <circle cx="82" cy="110" r="6" fill="${hole}"/>
+        <circle cx="118" cy="108" r="6" fill="${hole}"/>
+        <circle cx="100" cy="132" r="6" fill="${hole}"/>`;
+      // collerette hexagonale asymétrique (penche à droite), biseau doux comme la vraie T13
+      const hex = '72,80 120,76 152,108 120,140 72,138 48,110';
+      const hexIn = '77,85 118,82 144,108 117,134 77,132 55,110';
       const collar = `
-        <polygon points="${hex}" fill="#dbe1e9" stroke="#9aa4b0" stroke-width="2.6"/>
-        <polygon points="${hex}" fill="none" stroke="#ffffff" stroke-width="1.4" opacity=".95"/>
-        <polygon points="${hexIn}" fill="#eef2f6" stroke="#b7bfca" stroke-width="1.6"/>`;
-      return wrap(plate + collar + screw + holes3);
+        <polygon points="${hex}" fill="#e7ebf0" stroke="#aab3bf" stroke-width="2.2"/>
+        <polygon points="${hex}" fill="none" stroke="#ffffff" stroke-width="1.2" opacity=".9"/>
+        <polygon points="${hexIn}" fill="#fbfcfd" stroke="#cfd6de" stroke-width="1.4"/>`;
+      return wrap(plate + collar + screwT13 + holesT13);
     }
     // T12 : face plate, sans collerette
     return wrap(plate + screw + holes3);
