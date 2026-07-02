@@ -93,51 +93,59 @@
       Comparez ce qui se passe selon l'installation.</p>
   </div>
 
-  <div class="scene-toggle" role="tablist" aria-label="Comparer les installations">
-    <button class="scene-btn active" data-mode="safe" role="tab">🛡️ Installation moderne</button>
-    <button class="scene-btn" data-mode="danger" role="tab">⚠️ Schéma III · un fil a lâché</button>
+  <div class="scene-controls">
+    <div class="scene-grp">
+      <span class="scene-grp-lbl">Installation</span>
+      <div class="scene-toggle" role="tablist" aria-label="Type d'installation">
+        <button class="scene-btn active" data-install="modern" role="tab">🛡️ Moderne</button>
+        <button class="scene-btn" data-install="sch3" role="tab">⚠️ Schéma III</button>
+      </div>
+    </div>
+    <div class="scene-grp">
+      <span class="scene-grp-lbl">État</span>
+      <div class="scene-toggle" role="tablist" aria-label="État de l'installation">
+        <button class="scene-btn2 active" data-state="ok" role="tab">Sans défaut</button>
+        <button class="scene-btn2" data-state="fault" role="tab">Avec défaut</button>
+      </div>
+    </div>
   </div>
 
-  <div class="scene-wrap card" id="sceneWrap" data-mode="safe">
-    <svg viewBox="0 0 520 350" id="sceneSvg" role="img" aria-label="Scène : un lave-linge, une personne et le sol, comparant une installation moderne et le schéma III">
+  <div class="scene-wrap card" id="sceneWrap" data-install="modern" data-state="ok" data-tone="ok">
+    <svg viewBox="0 0 520 350" id="sceneSvg" role="img" aria-label="Scène pédagogique : un lave-linge, une personne et le sol">
       <!-- sol -->
       <line x1="20" y1="306" x2="500" y2="306" class="earth"/>
       <path d="M34 306 v-8 M50 306 v-12 M66 306 v-8" class="earth-hatch"/>
       <text x="22" y="328" class="scene-lbl">le sol (la terre)</text>
 
-      <!-- fusible -->
+      <!-- fusible + indicateur (piloté par le script) -->
       <rect x="26" y="44" width="82" height="60" rx="7" class="box"/>
-      <text x="67" y="68" text-anchor="middle" class="box-l">Fusible</text>
-      <g class="only-safe">
-        <rect x="42" y="76" width="50" height="20" rx="5" fill="rgba(255,77,79,.16)" stroke="var(--danger)"/>
-        <text x="67" y="90" text-anchor="middle" class="fuse-off">SAUTÉ</text>
-      </g>
-      <g class="only-danger">
-        <rect x="42" y="76" width="50" height="20" rx="5" fill="rgba(57,185,114,.16)" stroke="var(--ok)"/>
-        <text x="67" y="90" text-anchor="middle" class="fuse-on">actif</text>
-      </g>
+      <text x="67" y="66" text-anchor="middle" class="box-l">Fusible</text>
+      <rect id="fuseBox" x="36" y="74" width="62" height="20" rx="5"/>
+      <text id="fuseTxt" x="67" y="88" text-anchor="middle"></text>
 
-      <!-- la phase (le "courant") est commune aux deux installations -->
+      <!-- phase (le "courant"), commune -->
       <path class="wire phase" d="M108 62 H244 V152" fill="none"/>
 
       <!-- lave-linge -->
-      <text x="270" y="140" text-anchor="middle" class="scene-lbl">Lave‑linge — boîtier métallique</text>
+      <text x="270" y="138" text-anchor="middle" class="scene-lbl">Lave‑linge — boîtier métallique</text>
       <rect x="196" y="152" width="150" height="154" rx="12" class="machine"/>
       <rect x="196" y="152" width="150" height="26" rx="12" class="machine-top"/>
       <circle cx="271" cy="236" r="40" class="porthole-out"/>
       <circle cx="271" cy="236" r="29" class="porthole-in"/>
 
-      <!-- défaut interne -->
-      <path class="fault-bolt" d="M238 176 l11 -15 -6 0 11 -17"/>
-      <text x="214" y="200" class="fault-lbl">défaut</text>
+      <!-- défaut interne : seulement "avec défaut" -->
+      <g class="if-fault">
+        <path class="fault-bolt" d="M238 176 l11 -15 -6 0 11 -17"/>
+        <text x="214" y="202" class="fault-lbl">défaut</text>
+      </g>
 
-      <!-- ===== MODE MODERNE : 3 fils, dont un fil de sécurité DÉDIÉ ===== -->
-      <g class="only-safe">
+      <!-- ===== MODERNE : neutre + fil de sécurité DÉDIÉ vers la vraie terre ===== -->
+      <g class="if-modern">
         <path class="wire neutral"   d="M108 86 H272 V152" fill="none"/>
         <path class="wire pe"        d="M212 286 H150 V304" fill="none"/>
         <path class="wire pe-stripe" d="M212 286 H150 V304" fill="none"/>
         <path d="M138 304 h24 M143 309 h14 M147 314 h6" class="earth-hatch"/>
-        <text x="150" y="334" text-anchor="middle" class="ok-lbl">fil de sécurité → terre</text>
+        <text x="150" y="334" text-anchor="middle" class="ok-lbl">fil de sécurité → vraie terre</text>
         <g transform="translate(372,40)" class="scene-legend">
           <line x1="0" y1="0"  x2="20" y2="0"  class="wire phase"/><text x="26" y="4"  class="lg">courant</text>
           <line x1="0" y1="16" x2="20" y2="16" class="wire neutral"/><text x="26" y="20" class="lg">retour</text>
@@ -145,21 +153,27 @@
         </g>
       </g>
 
-      <!-- ===== MODE SCHÉMA III : 2 fils seulement, le neutre fait TOUT ===== -->
-      <g class="only-danger">
-        <!-- le neutre : retour ET "terre" -->
-        <path class="wire neutral" d="M108 86 H272 V152" fill="none"/>
-        <!-- ...le boîtier est relié à ce même neutre (le "pont") -->
-        <path class="wire neutral" d="M272 124 H306 V176" fill="none"/>
+      <!-- ===== SCHÉMA III : le "fil de terre" (vert-jaune) est ponté sur le neutre ===== -->
+      <g class="if-sch3">
+        <path class="wire neutral"   d="M108 86 H272 V152" fill="none"/>
+        <path class="wire pe"        d="M306 176 V124 H272" fill="none"/>
+        <path class="wire pe-stripe" d="M306 176 V124 H272" fill="none"/>
         <circle cx="306" cy="176" r="3.5" class="node"/>
-        <!-- ce fil unique est coupé -->
+        <circle cx="272" cy="124" r="4.5" class="node-hot"/>
+        <text x="150" y="334" text-anchor="middle" class="bad-lbl">aucune vraie terre</text>
+        <g transform="translate(340,32)" class="scene-legend">
+          <line x1="0" y1="0"  x2="20" y2="0"  class="wire phase"/><text x="26" y="4"  class="lg">courant</text>
+          <line x1="0" y1="16" x2="20" y2="16" class="wire neutral"/><text x="26" y="20" class="lg">neutre (retour)</text>
+          <line x1="0" y1="32" x2="20" y2="32" class="wire pe"/><line x1="0" y1="32" x2="20" y2="32" class="wire pe-stripe"/><text x="26" y="36" class="lg">« terre » du boîtier…</text>
+          <text x="26" y="50" class="lg warn">…mais reliée au neutre&nbsp;!</text>
+        </g>
+      </g>
+
+      <!-- neutre coupé : seulement schéma III + avec défaut -->
+      <g class="if-sch3 if-fault">
         <line x1="150" y1="78" x2="166" y2="94" class="break"/>
         <line x1="166" y1="78" x2="150" y2="94" class="break"/>
         <text x="158" y="70" text-anchor="middle" class="bad-lbl">neutre coupé</text>
-        <g transform="translate(330,40)" class="scene-legend">
-          <line x1="0" y1="0"  x2="20" y2="0"  class="wire phase"/><text x="26" y="4"  class="lg">courant</text>
-          <line x1="0" y1="18" x2="20" y2="18" class="wire neutral"/><text x="26" y="22" class="lg">neutre = retour ET terre</text>
-        </g>
       </g>
 
       <!-- personne -->
@@ -169,8 +183,7 @@
         <line x1="430" y1="210" x2="356" y2="228" class="scene-person"/>
         <line x1="430" y1="252" x2="416" y2="304" class="scene-person"/>
         <line x1="430" y1="252" x2="444" y2="304" class="scene-person"/>
-        <text x="430" y="150" text-anchor="middle" class="only-safe safe-lbl">à l'abri ✔</text>
-        <text x="430" y="150" text-anchor="middle" class="only-danger shock-lbl">⚡ électrisé</text>
+        <text id="personLbl" x="430" y="150" text-anchor="middle"></text>
       </g>
 
       <!-- courant animé -->

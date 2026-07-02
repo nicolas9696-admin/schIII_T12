@@ -315,39 +315,65 @@
   });
 
   /* ===================================================================
-     SCÈNE — moderne (sûr) vs schéma III (danger)
+     SCÈNE — installation (moderne / schéma III) × état (sans / avec défaut)
      =================================================================== */
-  const scene = { wrap: $('#sceneWrap'), pulse: $('#scenePulse'), cap: $('#sceneCaption') };
-  const SCENE = {
-    safe: {
-      color: 'var(--pe)',
-      path: [[243,178],[212,250],[212,286],[150,286],[150,304]],
-      cap: "Un fil détaché met le boîtier <b>sous tension</b>. Aussitôt, le <b>fil de sécurité</b> " +
-           "(vert‑jaune) offre à l'électricité un chemin direct vers le sol&nbsp;: un fort courant passe " +
-           "et <b>fait sauter le fusible</b> en un clin d'œil. Le boîtier redevient inoffensif — " +
-           "vous n'avez rien senti."
+  const scene = {
+    wrap: $('#sceneWrap'), pulse: $('#scenePulse'), cap: $('#sceneCaption'),
+    fuseBox: $('#fuseBox'), fuseTxt: $('#fuseTxt'),
+    person: $('#scenePerson'), personLbl: $('#personLbl')
+  };
+  const LOOP_N   = [[108,62],[244,62],[244,152],[272,152],[272,86],[108,86]];
+  const PATH_PE  = [[243,178],[212,250],[212,286],[150,286],[150,304]];
+  const PATH_BODY = [[243,178],[300,205],[356,228],[430,210],[430,252],[420,304]];
+  const COMBO = {
+    modern_ok: {
+      tone: 'ok', color: 'var(--phase)', path: LOOP_N, speed: 0.006,
+      fuse: ['sous tension', 'f-ok'], person: ['', 'p-none'],
+      cap: "Fonctionnement normal&nbsp;: le courant circule entre la phase et le neutre. Le " +
+           "<b>fil de sécurité</b> (vert‑jaune) ne transporte rien — il attend, prêt à agir en cas de défaut."
     },
-    danger: {
-      color: 'var(--danger)',
-      path: [[243,178],[300,205],[356,228],[430,210],[430,252],[420,304]],
-      cap: "Même défaut… mais le fil unique qui servait de sécurité est <b>coupé</b>. Plus de sortie de " +
-           "secours&nbsp;: le courant traverse le boîtier, puis <b>vous</b>, pour rejoindre le sol. " +
-           "Le <b>fusible ne saute pas</b> et le boîtier reste dangereux. C'est ainsi qu'on s'électrise."
+    modern_fault: {
+      tone: 'safe', color: 'var(--pe)', path: PATH_PE, speed: 0.01,
+      fuse: ['SAUTÉ ✔', 'f-good'], person: ["à l'abri ✔", 'p-safe'],
+      cap: "Un fil se détache et touche le boîtier. Le <b>fil de sécurité</b> l'évacue aussitôt vers le " +
+           "sol&nbsp;: un fort courant passe et <b>fait sauter le fusible</b>. Le boîtier n'est plus sous " +
+           "tension — vous êtes à l'abri."
+    },
+    sch3_ok: {
+      tone: 'warn', color: 'var(--phase)', path: LOOP_N, speed: 0.006,
+      fuse: ['sous tension', 'f-ok'], person: ['', 'p-none'],
+      cap: "En apparence, tout marche. Le boîtier est relié au neutre par un pont&nbsp;: tant que rien ne " +
+           "casse, il reste à 0&nbsp;V. C'est <b>l'illusion de sécurité</b> du schéma III."
+    },
+    sch3_fault: {
+      tone: 'danger', color: 'var(--danger)', path: PATH_BODY, speed: 0.011,
+      fuse: ["n'a pas sauté ✗", 'f-bad'], person: ['⚡ électrisé', 'p-live'],
+      cap: "Un fil touche le boîtier <b>et</b> le neutre — le seul fil qui servait de « terre » — est " +
+           "<b>coupé</b>. Plus de sortie de secours&nbsp;: le courant traverse le boîtier, puis <b>vous</b>. " +
+           "Le <b>fusible ne saute pas</b>, et aucun DDR ne peut rattraper le coup."
     }
   };
-  let sceneAnim = null, st = 0, sceneMode = 'safe';
+  let sceneAnim = null, st = 0, sceneInstall = 'modern', sceneState = 'ok';
   function stopScene() { if (sceneAnim) cancelAnimationFrame(sceneAnim); sceneAnim = null; }
-  function runScene(mode) {
-    sceneMode = mode; stopScene();
-    scene.wrap.dataset.mode = mode;
-    const s = SCENE[mode];
-    scene.cap.innerHTML = s.cap;
-    scene.pulse.setAttribute('fill', s.color);
+  function renderScene() {
+    stopScene();
+    const c = COMBO[sceneInstall + '_' + sceneState];
+    scene.wrap.dataset.install = sceneInstall;
+    scene.wrap.dataset.state = sceneState;
+    scene.wrap.dataset.tone = c.tone;
+    scene.fuseBox.setAttribute('class', c.fuse[1]);
+    scene.fuseTxt.setAttribute('class', c.fuse[1] + '-t');
+    scene.fuseTxt.textContent = c.fuse[0];
+    scene.personLbl.textContent = c.person[0];
+    scene.personLbl.setAttribute('class', c.person[1]);
+    scene.person.classList.toggle('live', c.person[1] === 'p-live');
+    scene.cap.innerHTML = c.cap;
+    scene.pulse.setAttribute('fill', c.color);
     scene.pulse.setAttribute('opacity', '1');
     st = 0;
     const loop = () => {
-      st += 0.008; if (st > 1) st = 0;
-      const p = lerpPath(s.path, st);
+      st += c.speed; if (st > 1) st = 0;
+      const p = lerpPath(c.path, st);
       scene.pulse.setAttribute('cx', p[0]); scene.pulse.setAttribute('cy', p[1]);
       sceneAnim = requestAnimationFrame(loop);
     };
@@ -355,10 +381,13 @@
   }
   $$('.scene-btn').forEach(b => b.addEventListener('click', () => {
     $$('.scene-btn').forEach(x => x.classList.remove('active'));
-    b.classList.add('active');
-    runScene(b.dataset.mode);
+    b.classList.add('active'); sceneInstall = b.dataset.install; renderScene();
   }));
-  runScene('safe');
+  $$('.scene-btn2').forEach(b => b.addEventListener('click', () => {
+    $$('.scene-btn2').forEach(x => x.classList.remove('active'));
+    b.classList.add('active'); sceneState = b.dataset.state; renderScene();
+  }));
+  renderScene();
 
   /* pause heavy animations when tab hidden */
   document.addEventListener('visibilitychange', () => {
@@ -367,7 +396,7 @@
       if (ddrAnim) cancelAnimationFrame(ddrAnim), ddrAnim = null;
     } else {
       if (!ddrAnim) ddrLoop();
-      runScene(sceneMode);
+      renderScene();
       const active = $('.lab-btn.active'); if (active) applyFault(active.dataset.fault);
     }
   });
